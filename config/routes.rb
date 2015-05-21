@@ -14,9 +14,10 @@ Rails.application.routes.draw do
     resources :groups do
       member do
         scope 'time_record' do
-          get ':year/edit' => 'time_records#edit', as: :edit_time_record
-          put ':year' => 'time_records#update', as: :time_record
-          get ':year' => 'time_records#edit' # route required for language switch
+          get '/' => 'time_records#index', as: :time_record
+          get ':year/:report/edit' => 'time_records#edit', as: :edit_time_record_report
+          put ':year/:report' => 'time_records#update', as: :time_record_report
+          get ':year/:report' => 'time_records#edit' # route required for language switch
         end
 
         scope 'cost_accounting' do
@@ -26,15 +27,31 @@ Rails.application.routes.draw do
           get ':year/:report' => 'cost_accounting#edit' # route required for language switch
         end
 
+        scope 'capital_substrate' do
+          get ':year/edit' => 'capital_substrate#edit', as: :edit_capital_substrate
+          put ':year' => 'capital_substrate#update', as: :capital_substrate
+          get ':year' => 'capital_substrate#edit' # route required for language switch
+        end
+
         get '/statistics' => 'statistics#show', as: :statistics
+        get '/controlling' => 'controlling#index', as: :controlling
+        get '/controlling/cost_accounting' => 'controlling#cost_accounting',
+            as: :cost_accounting_controlling
+        get '/controlling/client_statistics' => 'controlling#client_statistics',
+            as: :client_statistics_controlling
+        get '/controlling/group_figures' => 'controlling#group_figures',
+            as: :group_figures_controlling
         get '/abo_addresses' => 'abo_addresses#index', as: :abo_addresses
 
+        scope module: 'course_reporting' do
+          get ':year/aggregations' => 'aggregations#index', as: :aggregations
+          get ':year/aggregation/export' => 'aggregations#export', as: :aggregation_export
+        end
       end
 
-      resources :events do
+      resources :events, only: [] do # do not redefine events actions, only add new ones
         collection do
-          get 'simple' => 'events#index'
-          get 'course' => 'events#index', type: 'Event::Course'
+          get 'aggregate_course' => 'events#index', type: 'Event::AggregateCourse'
 
           scope 'general_cost_allocation' do
             get ':year/edit' => 'event/general_cost_allocations#edit',
@@ -43,6 +60,9 @@ Rails.application.routes.draw do
                 as: :general_cost_allocation
             get ':year' => 'event/general_cost_allocations#edit' # route required for language switch
           end
+
+          # get 'course_statistics' => 'course_statistics#index'
+          # get 'course_statistics/show' => 'course_stat'
         end
 
         scope module: 'event' do
@@ -52,7 +72,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :cost_accounting_parameters
+    resources :reporting_parameters
   end
 
 end

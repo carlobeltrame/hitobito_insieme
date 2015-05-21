@@ -26,8 +26,8 @@ describe Export::Csv::Events::List do
                  :motto, :cost, :application_opening_at, :application_closing_at,
                  :maximum_participants, :external_applications, :priorization,
                  :teamer_count, :participant_count, :applicant_count,
-                 :leistungskategorie, :subventioniert, :inputkriterien, :kursart,
-                 :spezielle_unterkunft]
+                 :leistungskategorie, :year, :subventioniert, :inputkriterien, :kursart,
+                 :spezielle_unterkunft, :anzahl_kurse]
     end
 
     its(:labels) do
@@ -42,8 +42,8 @@ describe Export::Csv::Events::List do
                  'Motto', 'Kosten', 'Anmeldebeginn', 'Anmeldeschluss', 'Maximale Teilnehmerzahl',
                  'Externe Anmeldungen', 'Priorisierung',
                  'Anzahl BetreuerInnen', 'Anzahl Teilnehmende', 'Anzahl Anmeldungen',
-                 'Leistungskategorie', 'Subventioniert', 'Inputkriterien', 'Kursart',
-                 'Spezielle Unterkunft']
+                 'Leistungskategorie', 'Reporting im Jahr', 'Subventioniert', 'Inputkriterien',
+                 'Kursart', 'Spezielle Unterkunft', 'Anzahl Kurse']
     end
   end
 
@@ -78,8 +78,10 @@ describe Export::Csv::Events::List do
         expect(row[27..-1]).to eq ['Motto', 'Kosten', 'Anmeldebeginn', 'Anmeldeschluss',
                                    'Maximale Teilnehmerzahl', 'Externe Anmeldungen',
                                    'Priorisierung', 'Anzahl BetreuerInnen', 'Anzahl Teilnehmende',
-                                   'Anzahl Anmeldungen', 'Leistungskategorie', 'Subventioniert',
-                                   'Inputkriterien', 'Kursart', 'Spezielle Unterkunft']
+                                   'Anzahl Anmeldungen', 'Leistungskategorie',
+                                   'Reporting im Jahr', 'Subventioniert',
+                                   'Inputkriterien', 'Kursart', 'Spezielle Unterkunft',
+                                   'Anzahl Kurse']
       end
     end
 
@@ -87,8 +89,8 @@ describe Export::Csv::Events::List do
       let(:row) { csv[1].split(';') }
       it 'should contain the additional course and record fields' do
         expect(row[27..-1]).to eq ['All for one', '1000', '2000-01-01', '2000-02-01', '10',
-                                   'nein', 'nein', '1', '2', '3', 'Blockkurs', 'ja', 'a',
-                                   'Freizeit und Sport', 'ja']
+                                   'nein', 'nein', '1', '2', '3', 'Blockkurs', '2012', 'ja', 'a',
+                                   'Freizeit und Sport', 'ja', '1']
       end
     end
 

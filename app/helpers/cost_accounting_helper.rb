@@ -19,16 +19,16 @@ module CostAccountingHelper
   end
 
   def cost_accounting_reports
-    CostAccounting::Table::REPORTS.values
+    CostAccounting::Table::REPORTS
   end
 
   def base_time_record_group_path(group, _params = {})
     group_path(group) + '/time_record'
   end
 
-  def reporting_nav(label, path)
+  def reporting_nav(label, path, options = {})
     content_tag(:li, class: current_page?(path) && 'active') do
-      link_to(label, path)
+      link_to(label, path, options)
     end
   end
 end

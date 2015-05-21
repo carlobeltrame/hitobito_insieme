@@ -22,9 +22,9 @@ describe CourseReporting::CategoryAssigner do
     event.build_course_record(
       year: year,
       inputkriterien: inputkriterien,
-      unterkunft: kosten,
+      direkter_aufwand: kosten,
       kursdauer: tage,
-      teilnehmende_behinderte: teilnehmende)
+      tage_behinderte: teilnehmende && teilnehmende * tage)
   end
 
 
@@ -34,7 +34,7 @@ describe CourseReporting::CategoryAssigner do
     context 'and without year' do
 
       it 'assigns category 1' do
-        should eq 1
+        is_expected.to eq 1
       end
     end
 
@@ -42,7 +42,7 @@ describe CourseReporting::CategoryAssigner do
       let(:year) { 2015 }
 
       it 'assigns category 1' do
-        should eq 1
+        is_expected.to eq 1
       end
     end
 
@@ -50,7 +50,7 @@ describe CourseReporting::CategoryAssigner do
       let(:year) { 2012 }
 
       it 'assigns category 1' do
-        should eq 1
+        is_expected.to eq 1
       end
     end
   end
@@ -83,7 +83,7 @@ describe CourseReporting::CategoryAssigner do
         let(:inputkriterien) { attrs[:inputkriterien] }
         let(:kosten) { attrs[:kosten] }
 
-        it { should eq category }
+        it { is_expected.to eq category }
       end
     end
 
@@ -104,7 +104,7 @@ describe CourseReporting::CategoryAssigner do
           let(:inputkriterien) { attrs[:inputkriterien] }
           let(:kosten) { attrs[:kosten] }
 
-          it { should eq category }
+          it { is_expected.to eq category }
         end
       end
     end
@@ -138,7 +138,7 @@ describe CourseReporting::CategoryAssigner do
         let(:inputkriterien) { attrs[:inputkriterien] }
         let(:kosten) { attrs[:kosten] }
 
-        it { should eq category }
+        it { is_expected.to eq category }
       end
     end
 
@@ -159,7 +159,7 @@ describe CourseReporting::CategoryAssigner do
           let(:inputkriterien) { attrs[:inputkriterien] }
           let(:kosten) { attrs[:kosten] }
 
-          it { should eq category }
+          it { is_expected.to eq category }
         end
       end
     end
@@ -193,7 +193,7 @@ describe CourseReporting::CategoryAssigner do
         let(:inputkriterien) { attrs[:inputkriterien] }
         let(:kosten) { attrs[:kosten] }
 
-        it { should eq category }
+        it { is_expected.to eq category }
       end
     end
   end

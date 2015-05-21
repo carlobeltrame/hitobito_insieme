@@ -8,17 +8,25 @@
 
 module InsiemeFormatHelper
 
-  def format_money(amount)
-    if amount
-      f(amount) + ' ' + t('global.currency')
+  def format_money(value)
+    if value
+      fnumber(value) + ' ' + t('global.currency')
     else
       ''
     end
   end
 
-  def format_percent(amount)
-    if amount
-      f(amount) + ' %'
+  def format_percent(value)
+    if value
+      fnumber(value) + ' %'
+    else
+      ''
+    end
+  end
+
+  def format_hours(value)
+    if value
+      fnumber(value) + ' ' + t('global.hours_short')
     else
       ''
     end

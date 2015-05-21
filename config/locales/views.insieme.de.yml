@@ -13,14 +13,25 @@ de:
   layouts:
     reporting_menu:
       time_records: Zeiterfassung
-      cost_accounting: Kostenrechnung
-      general: Allgemeines
+      base_informations:
+        label: Basisinformationen
+        title: Ansicht Basisinformationen
       course_statistics: Kursstatistik
-      overview: Übersicht
+      cost_accounting: Kostenrechnung
+      overview:
+        label: Übersicht
+        title: Übersicht Kostenrechnung
       general_cost_allocation: Umlage Gemeinkosten
+      capital_substrate: Kapitalsubstrat
+    reporting_header:
+      association_name: Vereinsname
 
   navigation:
     groups: Vereine
+
+  capital_substrate:
+    edit:
+      help_per_date: per %{date}
 
   contactable:
     address_fields_insieme:
@@ -33,14 +44,95 @@ de:
     single_address_fields:
       same_as_main: Gleich wie Hauptadresse
 
+  controlling:
+    title: Controlling
+    index:
+      cost_accounting: Konsolidierte Kostenrechnung
+      client_statistics: KlientInnen Statistik
+      group_figures: Kennzahlen pro Verein
+
   cost_accounting:
     index:
       title: Übersicht Kostenrechnung
+      export: CSV Export
     edit:
       aufwand_fibu: Aufwand FIBU
       ertrag_fibu: Ertrag FIBU
       kontengruppen: "Kontengruppe(n) %{kontengruppen}"
       remarks_placeholder: Hier können Sie Ihre Notizen oder Erklärungen anbringen (z.B. wie sich Aufwand auf Kontengruppen verteilt)
+
+  course_reporting:
+    client_statistics:
+      disability_or_canton: Behinderung / Kanton
+      total: Total
+      challenged: Anzahl Behinderte (Personen)
+      affiliated: Anzahl Angehörige (Personen)
+      participants: Geistig-/Lernbehinderte
+      multiple_challenged: davon Mehrfachbehinderte
+
+    aggregations:
+      index:
+        title: Exporte Kursstatistik
+        subsidized_1_2_3: Subventioniert alle
+        unsubsidized_1_2_3: Nicht Subventioniert alle
+        subsidized_1: Subv. Kat.1
+        subsidized_2: Subv. Kat.2
+        subsidized_3: Subv. Kat.3
+
+      a: Inputkategorie A
+      b: Inputkategorie B
+      c: Inputkategorie C
+      total: Total
+
+      anzahl_kurse: Anzahl Kurse
+      kursdauer: Anzahl Kurstage
+      kursdauer_stunden: Anzahl Kursstunden
+
+      teilnehmende: Anzahl effektive TeilnehmerInnen
+      teilnehmende_behinderte: davon Behinderte
+      teilnehmende_angehoerige: davon Angehörige
+      teilnehmende_weitere: davon nicht Bezugsberechtigte
+
+      total_absenzen:  Absenztage
+      absenzen_behinderte: davon Absenztage Behinderte
+      absenzen_angehoerige: davon Absenztage Angehörige
+      absenzen_weitere: davon Absenztage nicht Bezugsberechtigte
+
+      total_absenzen_stunden:  Absenzstunden
+      absenzen_behinderte_stunden: davon Absenzstunden Behinderte
+      absenzen_angehoerige_stunden: davon Absenzstunden Angehörige
+      absenzen_weitere_stunden: davon Absenzstunden nicht Bezugsberechtigte
+
+      total_tage_teilnehmende: Effektive TeilnehmerInnentage
+      tage_behinderte: davon TeilnehmerInnentage Behinderte
+      tage_angehoerige: davon TeilnehmerInnentage Angehörige
+      tage_weitere: davon TeilnehmerInnentage nicht Bezugsberechtigte
+
+      total_tage_teilnehmende_stunden: Effektive TeilnehmerInnenstunden
+      tage_behinderte_stunden: davon TeilnehmerInnenstunden Behinderte
+      tage_angehoerige_stunden: davon TeilnehmerInnenstunden Angehörige
+      tage_weitere_stunden: davon TeilnehmerInnenstunden nicht Bezugsberechtigte
+
+      betreuende: Anzahl Betreuungspersonal
+      leiterinnen: davon LeiterInnen
+      fachpersonen: davon Fachpersonen hochqualifiziert
+      hilfspersonal_ohne_honorar: davon Hilfspersonal ohne Honorar
+      hilfspersonal_mit_honorar: davon Hilfspersonal mit Honorar
+      kuechenpersonal: Anzahl Küchenpersonal
+
+      direkter_aufwand: Gesamtaufwand direkte Kosten
+      honorare_inkl_sozialversicherung: davon Honorare
+      unterkunft: davon Unterkunft/Raumaufwand
+      uebriges: davon übriger Aufwand inkl. Verpflegung
+
+      direkte_kosten_pro_le: Durchschnittliche direkte Kosten pro TeilnehmerInnentag
+      direkte_kosten_pro_le_stunden: Durchschnittliche direkte Kosten pro TeilnehmerInnenstunde
+      total_vollkosten: Vollkosten
+      vollkosten_pro_le: Durchschnittliche Vollkosten pro TeilnehmerInnentag
+      vollkosten_pro_le_stunden: Durchschnittliche Vollkosten pro TeilnehmerInnenstunde
+      beitraege_teilnehmende: Beiträge Teilnehmende
+      betreuungsschluessel: Betreuungschlüssel (Teilnehmende / Betreuende)
+      anzahl_spezielle_unterkunft: Anzahl Kurse mit spezieller Unterkunft
 
   dropdown/abo_addresses_export:
     button: Adresslisten Abonnemente
@@ -67,7 +159,7 @@ de:
         auswertungen: Auswertungen
         updated_at: "aktualisiert am %{date}"
         info_not_subsidized: "Nicht subventioniert: Kurs wird in der Kursstatistik nicht berücksichtigt"
-        missing_cost_accounting_parameters: Für das entsprechende Jahr sind keine Kostenrechnung Parameter definiert. Bitte wenden Sie sich an den Dachverein.
+        missing_reporting_parameters: Für das entsprechende Jahr sind keine Reportingparameter definiert. Bitte wenden Sie sich an den Dachverein.
 
       canton_fields:
         change: Anpassen
@@ -106,7 +198,7 @@ de:
 
   filter_navigation/event/participations:
     predefined_filters:
-      teamers: Betreuungsteam (%{count})
+      teamers: Betreuungsteam
 
   people:
     fields_insieme:
@@ -125,22 +217,52 @@ de:
     show:
       title: Vereinsstatistik Mitglieder
       export: CSV Export
+    group_figures:
+      name: 'Vollständiger Name'
+      vid: VID
+      bsv: BSV Nummer
+      participant_days_bk_1: Blockkurse TN Tage Kat. 1
+      participant_days_bk_2: Blockkurse TN Tage Kat. 2
+      participant_days_bk_3: Blockkurse TN Tage Kat. 3
+      participant_days_tk_1: Tageskurse TN Tage Kat. 1
+      participant_days_tk_2: Tageskurse TN Tage Kat. 2
+      participant_days_tk_3: Tageskurse TN Tage Kat. 3
+      participant_days_sk_1: Semester-/Jahreskurse TN Stunden Kat. 1
+      lufeb_hours_employees: LUFEB Stunden Angestellte
+      lufeb_hours_volunteers: LUFEB Stunden Ehrenamtliche mit Leistungsausweis
 
   shared:
     admin_nav_kinds_insieme:
-      cost_accounting_parameters: Parameter
+      reporting_parameters: Parameter
 
   time_records:
+    index:
+      title: Basisinformationen
+      paragraph_74: Art. 74 betreffend
+      not_paragraph_74: Art. 74 nicht betreffend
+      whole_organization: Ganze Organisation
+      controlling: Kontrolle
+      capital_substrate: Kapitalsubstrat
     edit:
-      comment: Nur geleistete Stunden erfassen welche Art. 74 betreffen. Alle Angaben in Stunden.
-      general: Leistungen Allgemein
+      comment: Nur geleistete Stunden erfassen welche Art. 74 betreffen, ausser anders gekennzeichnet.
+      subtotal: Subtotal
+      total: Total
+
+      employees: Angestellte MitarbeiterInnen, gemäss Arbeitsvertrag
       lufeb: Leistungen zur Unterstützung und Förderung der Eingliederung Behinderter (LUFEB)
-      lufeb_general : Allgemeine Medien- und Öffentlichkeitsarbeit
+      courses: Kurse
+      additional_person_specific: Weitere personenspezifische Leistungen
+      remaining: Übrige Leistungen
+      not_paragraph_74: Nicht Art. 74 betreffende Leistungen
+      whole_organization: Ganze Organisation
+
+      help_employee_pensum: 70% Stellenprozent = 0.7 eingeben
+
+    lufeb_fields_full:
+      lufeb_general: Allgemeine Medien- und Öffentlichkeitsarbeit
       lufeb_private: Eigene öffentlich zugängliche Medien und Publikationen
       lufeb_specific: Themenspezifische Grundlagenarbeit / Projekte
       lufeb_promoting: Förderung der Selbsthilfe / Unterstützung von Selbsthilfeorganisationen und –gruppen sowie Einzelpersonen
-      procurement: Mittelbeschaffung
-
       help_publikationen: nicht in der eigenen Zeitschrift oder Website
       help_medienkonferenzen: Planung bzw. Durchführung
       help_kontakte_meinungsbildner: z.B. EntscheidungsträgerInnen aus Institutionen, Verwaltung, Politik und Wirtschaft
@@ -155,3 +277,21 @@ de:
       help_treffen_meinungsaustausch: von Betroffenen und Angehörigen zwecks Meinungs- und Erfahrungsaustausches
 
       help_unterstuetzung_behindertenhilfe: im Mittel max. 100 Stunden pro Jahr und Organisation.
+
+    report:
+      employee_pensum:
+        name: Angestellte MitarbeiterInnen. Gemäss Arbeitsvertrag (in 100% Stellen)
+      employee_time:
+        name: Angestellte MitarbeiterInnen. Zeiterfassung (in 100% Stellen)
+      volunteer_without_verification_time:
+        name: Ehrenamtliche Arbeit ohne Leistungsnachweis (in 100% Stellen)
+      volunteer_with_verification_time:
+        name: Ehrenamtliche Arbeit mit Leistungsnachweis (in 100% Stellen)
+      employee_efforts:
+        name: Personalaufwand inkl. Soz. Versicherung
+      employee_efforts_pensum:
+        name: Personalaufwand umgerechnet auf 100%-Stelle
+      capital_substrate:
+        name: Geschlüsseltes Kapitalsubstrat nach Art. 74 IVG
+      capital_substrate_limit:
+        name: Limite Kapitalsubstrat

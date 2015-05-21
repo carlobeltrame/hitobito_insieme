@@ -60,8 +60,26 @@
   }
 
   table {
-    .subtotal {
+    .subtotal,
+    .deckungsbeitrag > :first-child {
       background-color: $grayLighter;
+    }
+    .deckungsbeitrag:hover > :first-child {
+      background-color: $tableColorHover;
+    }
+
+    .deckungsbeitrag-separator,
+    .deckungsbeitrag-separator:hover > th,
+    .deckungsbeitrag-separator:hover > td {
+      background-color: $gray;
+    }
+
+    .unternehmenserfolg > th,
+    .unternehmenserfolg > td,
+    .unternehmenserfolg:hover > th,
+    .unternehmenserfolg:hover > td {
+      background-color: $black;
+      color: $white;
     }
 
     td, th {
@@ -87,12 +105,48 @@
   }
 }
 
+.time-records {
+  .separator > th,
+  .separator > td{
+    padding-top: 1em;
+
+    &:hover {
+      background-color: $white;
+    }
+  }
+}
+
 .long-labeled {
   .control-label {
     width: 360px;
   }
   .controls {
     margin-left: 380px;
+  }
+}
+
+.reporting-header {
+  float: right;
+  @include border-radius($baseBorderRadius);
+  padding: 4px 12px;
+  line-height: $baseLineHeight;
+  color: $gray;
+  background-color: $grayLighter;
+  font-size: $fontSizeMini;
+  border: 1px solid transparent;
+
+  dt, dd {
+    display: inline-block;
+    @include ie7-inline-block();
+  }
+  dt {
+    margin-left: 1em;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+  dd {
+    margin-left: 0;
   }
 }
 

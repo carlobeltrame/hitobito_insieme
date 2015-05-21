@@ -8,9 +8,11 @@
 module Insieme::GroupAbility
   extend ActiveSupport::Concern
 
-  REPORTING_DACH_ROLES =  [Group::Dachverein::Geschaeftsfuehrung,
-                           Group::Dachverein::Sekretariat,
-                           Group::Dachverein::Adressverwaltung]
+  DACH_MANAGER_ROLES = Group::Dachverein.role_types.select do |r|
+    r.permissions.include?(:layer_and_below_full)
+  end
+
+  REPORTING_DACH_ROLES  = DACH_MANAGER_ROLES + [Group::Dachverein::Controlling]
 
   REPORTING_REGIO_ROLES = [Group::Regionalverein::Geschaeftsfuehrung,
                            Group::Regionalverein::Sekretariat,
@@ -29,8 +31,18 @@ module Insieme::GroupAbility
         any_role_in_same_layer_or_layer_group_or_if_dachverein_manager
 
       permission(:any).
-        may(:index_events).
+        may(:index_events, :'index_event/courses').
         any_role_in_same_layer_or_if_dachverein_manager_or_if_regionalverein
+
+      permission(:any).may(:'index_event/aggregate_courses').in_same_group
+      permission(:group_full).may(:'export_event/aggregate_courses').in_same_group
+      permission(:layer_read).
+        may(:'index_event/aggregate_courses', :'export_event/aggregate_courses').
+        in_same_layer
+      permission(:layer_and_below_read).
+        may(:'index_event/aggregate_courses', :'export_event/aggregate_courses').
+        in_same_layer_or_below
+
 
       permission(:any).
         may(:index_mailing_lists).
@@ -42,15 +54,25 @@ module Insieme::GroupAbility
 
       permission(:contact_data).may(:index_people).contact_data_in_same_layer
 
-      permission(:any).may(:reporting).if_regionalverein_manager_in_same_group
-      permission(:layer_and_below_full).may(:reporting).in_same_layer_or_below
+      permission(:any).
+        may(:reporting).
+        if_dachverein_controlling_or_regionalverein_manager_in_same_group
 
       permission(:group_read).may(:statistics).in_same_group
       permission(:layer_read).may(:statistics).in_same_group
       permission(:layer_and_below_read).may(:statistics).in_same_group
 
+      permission(:any).may(:controlling).if_dachverein_controlling
+
       general(:reporting).for_reporting_group
+      general(:statistics).for_dachverein
+      general(:controlling).for_dachverein
     end
+  end
+
+  def if_dachverein_controlling_or_regionalverein_manager_in_same_group
+    if_dachverein_controlling ||
+    if_regionalverein_manager_in_same_group
   end
 
   def if_regionalverein_manager_in_same_group
@@ -59,6 +81,11 @@ module Insieme::GroupAbility
   end
 
   def if_dachverein_manager
+    roles = user_context.user.roles
+    contains_any?(roles.collect(&:class), DACH_MANAGER_ROLES)
+  end
+
+  def if_dachverein_controlling
     roles = user_context.user.roles
     contains_any?(roles.collect(&:class), REPORTING_DACH_ROLES)
   end
@@ -78,10 +105,6 @@ module Insieme::GroupAbility
     any_role_in_same_layer_or_if_dachverein_manager || if_regionalverein
   end
 
-  def in_same_layer_or_if_dachverein_manager
-    in_same_layer || if_dachverein_manager
-  end
-
   def any_role_in_same_layer
     group && user_context.layer_ids(user_context.user.groups).include?(group.layer_group_id)
   end
@@ -90,10 +113,6 @@ module Insieme::GroupAbility
     group &&
     user_context.layer_ids(user.groups_with_permission(:contact_data)).
                  include?(group.layer_group_id)
-  end
-
-  def if_dachverein_manager_except_permission_giving
-    if_dachverein_manager && except_permission_giving
   end
 
   def if_group_in_hierarchy
@@ -107,6 +126,10 @@ module Insieme::GroupAbility
 
   def if_regionalverein
     group.is_a?(Group::Regionalverein)
+  end
+
+  def for_dachverein
+    group.is_a?(Group::Dachverein)
   end
 
   def for_reporting_group

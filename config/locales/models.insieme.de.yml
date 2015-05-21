@@ -258,6 +258,11 @@ de:
         one: Nicht Bezugsberechtigt
 
 
+      event/aggregate_course:
+        one: Sammelkurs
+        other: Sammelkurse
+
+
       cost_accounting_record:
         one: Kostenrechnungsreport
         other: Kostenrechnungsreporte
@@ -266,18 +271,33 @@ de:
         one: Zeiterfassung
         other: Zeiterfassungen
 
+      time_record/employee_time:
+        one: Zeiterfassung Angestellte
+        short: Angestellte
+
+      time_record/volunteer_without_verification_time:
+        one: Zeiterfassung Ehrenamtliche ohne Leistungsnachweis
+        short: Ehrenamt. o. Leistungsnachweis
+
+      time_record/volunteer_with_verification_time:
+        one: Zeiterfassung Ehrenamtliche mit Leistungsnachweis
+        short: Ehrenamt. mit Leistungsnachweis
+
       event/course_record:
-        one: Einzelkursreport
-        other: Einzelkursreporte
+        one: Kursreport
+        other: Kursreporte
 
       event/general_cost_allocation:
         one: Umlage Gemeinkosten
         other: Umlage Gemeinkosten
 
-      cost_accounting_parameter:
-        one: Kostenrechnung Parameter
-        other: Kostenrechnung Parameter
-        menu: Parameter
+      reporting_parameter:
+        one: Reportingparameter
+        other: Reportingparameter
+
+      capital_substrate:
+        one: Kapitalsubstrat
+        other: Kapitalsubstrate
 
     attributes:
       cantons:
@@ -333,22 +353,34 @@ de:
         kontrolle: Kontrolle
         aufteilung_kontengruppen: Notizen
 
-      cost_accounting_parameter:
+      reporting_parameter:
         year: Jahr
         vollkosten_le_schwelle1_blockkurs: Blockkurs Schwellenwert 1 Vollkosten/LE
         vollkosten_le_schwelle2_blockkurs: Blockkurs Schwellenwert 2 Vollkosten/LE
         vollkosten_le_schwelle1_tageskurs: Tageskurs Schwellenwert 1 Vollkosten/LE
         vollkosten_le_schwelle2_tageskurs: Tageskurs Schwellenwert 2 Vollkosten/LE
+        bsv_hours_per_year: BSV Stunden pro Jahr
+        capital_substrate_exemption: BSV Kapitalsubstrat Freibetrag
 
       event:
         teamer_count: Anzahl BetreuerInnen
 
+      event/aggregate_course:
+        year: Jahr
+        dates_full: Jahr
+
       event/course:
         leistungskategorie: Leistungskategorie
         leistungskategorien:
-          bk: Blockkurs
-          tk: Tageskurs
-          sk: Semester / Jahreskurs
+          bk:
+            one: Blockkurs
+            other: Blockkurse
+          tk:
+            one: Tageskurs
+            other: Tageskurse
+          sk:
+            one: Semester-/Jahreskurs
+            other: Semester-/Jahreskurse
 
       event/course_record:
         event_id: Kurs
@@ -365,6 +397,9 @@ de:
         absenzen_behinderte: Behinderte
         absenzen_angehoerige: Angehörige
         absenzen_weitere: Weitere, nicht Beitragsberechtigt
+        tage_behinderte: Behinderte
+        tage_angehoerige: Angehörige
+        tage_weitere: Weitere, nicht Beitragsberechtigt
         leiterinnen: LeiterInnen
         fachpersonen: Fachpersonen hochqualifiziert
         hilfspersonal_ohne_honorar: Hilfspersonal ohne Honorar
@@ -384,6 +419,7 @@ de:
         vollkosten_pro_le: Vollkosten pro LE
         zugeteilte_kategorie: Zugeteilte Kategorie
         year: Reporting im Jahr
+        anzahl_kurse: Anzahl Kurse
 
         kursarten:
           weiterbildung: Weiterbildung
@@ -535,13 +571,6 @@ de:
         billing_course_same_as_main: Rechnungsadresse Kurs gleich Hauptadresse
 
       time_record:
-        verwaltung:  Vereinsführung und Verwaltung
-        beratung: Sozialberatung
-        treffpunkte: Betreuung in Treffpunkten
-        blockkurse: Blockkurse
-        tageskurse: Tageskurse
-        jahreskurse: Semester-/Jahreskurse
-
         kontakte_medien: Kontakte zu Medien, zu Medienschaffenden
         interviews: Erteilen von Interviews
         publikationen: Publikation
@@ -572,8 +601,45 @@ de:
         beratung_fachhilfeorganisationen: Information, Beratung von Fachhilfeorganisationen betreffend Förderung der Selbsthilfe
         unterstuetzung_behindertenhilfe: Unterstützung von Behinderten in den Leitorganen von Organisationen der privaten Behindertenhilfe
 
-        mittelbeschaffung: Mittelbeschaffung
+        total_lufeb_general: Allgemeine Medien- und Öffentlichkeitsarbeit
+        total_lufeb_private: Eigene öffentlich zugängliche Medien und Publikationen
+        total_lufeb_specific: Themenspezifische Grundlagenarbeit / Projekte
+        total_lufeb_promoting: Förderung der Selbsthilfe / Unterstützung von Selbsthilfeorganisationen und –gruppen sowie Einzelpersonen
+        total_lufeb: Total LUFEB-Leistungen
 
+        blockkurse: Blockkurse
+        tageskurse: Tageskurse
+        jahreskurse: Semester-/Jahreskurse
+
+        treffpunkte: Betreuung in Treffpunkten
+        beratung: Sozialberatung
+
+        mittelbeschaffung: Mittelbeschaffung
+        verwaltung:  Vereinsführung und Verwaltung
+
+        total_paragraph_74: Total Art. 74 betreffend
+        total_paragraph_74_pensum: Ausgedrückt in-100% Stellen
+
+        nicht_art_74_leistungen: Leistungen
+
+        total_not_paragraph_74: Total Art. 74 nicht betreffend
+        total_not_paragraph_74_pensum: Ausgedrückt in-100% Stellen
+
+        total: Total
+        total_pensum: Ausgedrückt in-100% Stellen
+
+      time_record/employee_pensum:
+        paragraph_74: Art. 74 betreffend in 100% Stellen
+        not_paragraph_74: Art. 74 nicht betreffend in 100% Stellen
+
+      capital_substrate:
+        allocation_base: Schlüssel
+        organization_capital: Organisationskapital inkl. freie Reserven und freie Fonds
+        organization_capital_allocated: geschlüsseltes Organisationskapital
+        half_profit_margin: 50% Saldo Deckungsbeitragsrechnung
+        fund_building: Bildung gebundener Fonds aus freien Mitteln
+        exemption: abzüglich Freibetrag
+        capital_substrate_allocated: Geschlüsseltes Kapitalsubstrat Art. 74
 
     errors:
       attributes:
@@ -591,41 +657,82 @@ de:
     report:
       lohnaufwand:
         name: Lohnaufwand
+        short_name: Lohnaufwand
       sozialversicherungsaufwand:
         name: Sozialversicherungsaufwand
+        short_name: Sozialversicherungsaufwand
       uebriger_personalaufwand:
         name: Übriger Personalaufwand
+        short_name: Übriger Personalaufwand
       honorare:
         name: Honorare
+        short_name: Honorare
       total_personalaufwand:
         name: Total Personalaufwand/-kosten
+        short_name: Total Personalaufwand/-kosten
       raumaufwand:
         name: Raumaufwand
+        short_name: Raumaufwand
       uebriger_sachaufwand:
         name: Übriger Sachaufwand
+        short_name: Übriger Sachaufwand
       abschreibungen:
         name: Abschreibungen (exkl. Liegenschaften)
+        short_name: Abschreibungen
       total_aufwand:
-        name: Total Aufwand/-kosten
+        name: Total Aufwand/Kosten
+        short_name: Total Aufwand/Kosten
       leistungsertrag:
         name: Leistungsertrag
+        short_name: Leistungsertrag
       beitraege_iv:
         name: Beiträge IV
+        short_name: Beiträge IV
       sonstige_beitraege:
         name: Sonstige Beiträge Bund, Beiträge Kantone/Gemeinden
+        short_name: Beiträge Kantone, Gemeinden
       direkte_spenden:
         name: Direkte Spenden, sonstige Erträge Art. 74
+        short_name: Direkte Spenden (Art. 74)
+      indirekte_spenden:
+        name: Indirekte Spenden, sonstige Erträge (geschlüsselt)
+        short_name: Indirekte Spenden geschlüsselt
+      direkte_spenden_ausserhalb:
+        name: "Direkte Spenden, sonstige Erträge ausserhalb Art. 74"
+        short_name: Direkte Spenden (nicht Art. 74)
       umlage_personal:
         name: Umlage Personal
+        short_name: Umlage Personal
       umlage_raeumlichkeiten:
         name: Umlage Räumlichkeiten
+        short_name: Umlage Räumlichkeiten
       umlage_verwaltung:
         name: Umlage Verwaltung
+        short_name: Umlage Verwaltung
       total_umlagen:
         name: Total Umlagen
+        short_name: Total Umlagen
       vollkosten:
         name: Vollkosten nach Umlagen
-
+        short_name: Vollkosten nach Umlagen
+      total_ertraege:
+        name: Total Erträge
+        short_name: Total Erträge
+      deckungsbeitrag1:
+        name: Deckungsbeitrag 1 (Leistungsertrag-direkte Kosten)
+        short_name: Deckungsbeitrag 1
+      deckungsbeitrag2:
+        name: Deckungsbeitrag 2 (DB 1 - Gemeinkosten + direkte Spenden / sonstige Erträge Art. 74 + indirekte Spenden / sonstige Erträge geschlüsselt)
+        short_name: Deckungsbeitrag 2
+      deckungsbeitrag3:
+        name: Deckungsbeitrag 3 (DB 2 + sonstige Beiträge Bund, Kantone, Gemeinden)
+        short_name: Deckungsbeitrag 3
+      deckungsbeitrag4:
+        name: Deckungsbeitrag 4 (DB 3 + Beiträge IV)
+        short_name: Deckungsbeitrag 4
+      unternehmenserfolg:
+        name: Unternehmenserfolg
+        short_name: Unternehmenserfolg
 
   import/person_doublette_finder:
     duplicate_with_different_number: Eine gleiche Person mit einer anderen Personennummer (%{number}) wurde gefunden.

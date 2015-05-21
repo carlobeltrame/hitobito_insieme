@@ -5,6 +5,8 @@
 
 - @subtitle = t('.title')
 
+= action_button(t('.export'), params.merge(format: :csv), :download)
+
 .table-responsive.cost_accounting
   %table.table.table-hover
     %thead
@@ -16,14 +18,21 @@
             = CostAccountingRecord.human_attribute_name(f)
 
     %tbody
+      - previous_kind = nil
       - @table.reports.values.each do |report|
+        - if report.kind == :deckungsbeitrag && previous_kind != report.kind
+          %tr{class: 'deckungsbeitrag-separator'}
+            %td{colspan: 2 + @table.class.fields.length} &nbsp;
+
         %tr{class: report.kind}
-          %th
+          %th{title: h(report.human_name)}
             = link_to_if report.editable?,
-                         h(report.human_name),
+                         h(report.short_name),
                          edit_cost_accounting_report_group_path(group, year, report.key)
 
           %td.center= report.kontengruppe
           - @table.class.fields.each do |f|
             %td.right{class: cost_account_field_class(f)}
               = f(report.send(f))
+
+        - previous_kind = report.kind
