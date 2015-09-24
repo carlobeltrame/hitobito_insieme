@@ -23,6 +23,7 @@ class Event::GeneralCostAllocation < ActiveRecord::Base
 
   belongs_to :group
 
+  validates_by_schema
   validates :year, uniqueness: { scope: [:group_id] }
   validate :assert_group_has_reporting
 
@@ -55,7 +56,6 @@ class Event::GeneralCostAllocation < ActiveRecord::Base
                         where(subventioniert: subventioniert,
                               year: year,
                               events_groups: { group_id: group.id })
-
   end
 
   private
