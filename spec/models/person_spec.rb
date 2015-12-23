@@ -179,7 +179,7 @@ describe Person do
       expect(person.correspondence_course_address).to eq 'Pennylane'
       expect(person.billing_general_town).to eq 'Liverpool'
       expect(person.billing_course_zip_code).to eq 9933
-      expect(person.billing_course_country).to eq 'England'
+      expect(person.billing_course_country).to eq 'US'
     end
 
     it 'sets same_as_main according to values of address fields' do
@@ -195,7 +195,7 @@ describe Person do
     def create(attrs = {})
       Person.create!(attrs.merge(first_name: 'John', last_name: 'Lennon',
                                  address: 'Pennylane', zip_code: '9933', town: 'Liverpool',
-                                 country: 'England'))
+                                 country: 'US'))
     end
   end
 
@@ -257,7 +257,7 @@ describe Person do
       let(:country) { "#{type}_country".to_sym }
 
       it 'allows more than 4 digits for international plz' do
-        expect(new_person(zip_code => 90210, country => 'USA')).to be_valid
+        expect(new_person(zip_code => 90210, country => 'US')).to be_valid
       end
 
       it 'rejects more than 4 digits for swiss plz' do

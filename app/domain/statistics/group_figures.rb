@@ -28,36 +28,52 @@ module Statistics
       %w(1 2 3)
     end
 
-    def participant_effort(group, leistungskategorie, kategorie)
-      participant_efforts[group.id][leistungskategorie][kategorie].to_d
+    def course_record(group, leistungskategorie, kategorie)
+      course_records[group.id][leistungskategorie][kategorie]
     end
 
     def employee_time(group)
-      time_records[group.id][TimeRecord::EmployeeTime.sti_name].to_i
+      time_records[group.id][TimeRecord::EmployeeTime.sti_name]
     end
 
     def volunteer_with_verification_time(group)
-      time_records[group.id][TimeRecord::VolunteerWithVerificationTime.sti_name].to_i
+      time_records[group.id][TimeRecord::VolunteerWithVerificationTime.sti_name]
+    end
+
+    def volunteer_without_verification_time(group)
+      time_records[group.id][TimeRecord::VolunteerWithoutVerificationTime.sti_name]
+    end
+
+    def cost_accounting_table(group)
+      cost_accounting.table(group)
+    end
+
+    def capital_substrate(group)
+      cost_table = cost_accounting_table(group) || nil_cost_accounting_table(group)
+      substrate = capital_substrates[group.id] || CapitalSubstrate.new
+      time_table = TimeRecord::Table.new(group, year, cost_table).tap do |t|
+        t.set_records(TimeRecord::Report::CapitalSubstrate.key => substrate)
+      end
+      TimeRecord::Report::CapitalSubstrate.new(time_table)
     end
 
     private
 
-    def participant_efforts
-      @participant_efforts ||= begin
+    def course_records
+      @course_records ||= begin
         hash = Hash.new { |h1, k1| h1[k1] = Hash.new { |h2, k2| h2[k2] = {} } }
-        load_participant_efforts.each do |record|
-          hash[record.group_id][record.leistungskategorie][record.zugeteilte_kategorie] =
-            record.total_tage_teilnehmende
+        load_course_records.each do |record|
+          hash[record.group_id][record.leistungskategorie][record.zugeteilte_kategorie] = record
         end
         hash
       end
     end
 
-    def load_participant_efforts
+    def load_course_records
       Event::CourseRecord.select(course_record_columns).
                           joins(:event).
                           joins('INNER JOIN events_groups ON events.id = events_groups.event_id').
-                          where(year: year).
+                          where(year: year, subventioniert: true).
                           group('events_groups.group_id, events.leistungskategorie, ' \
                                 'event_course_records.zugeteilte_kategorie')
     end
@@ -65,25 +81,40 @@ module Statistics
     def course_record_columns
       'events_groups.group_id, events.leistungskategorie, ' \
       'event_course_records.zugeteilte_kategorie, ' \
+      'SUM(anzahl_kurse) AS anzahl_kurse, ' \
       'SUM(tage_behinderte) AS tage_behinderte, ' \
       'SUM(tage_angehoerige) AS tage_angehoerige, ' \
-      'SUM(tage_weitere) AS tage_weitere'
+      'SUM(tage_weitere) AS tage_weitere, ' \
+      'SUM(direkter_aufwand) AS direkter_aufwand, ' \
+      'SUM(gemeinkostenanteil) AS gemeinkostenanteil'
     end
 
     def time_records
       @time_records ||= begin
         hash = Hash.new { |h, k| h[k] = {} }
-        load_time_records.each do |record|
-          hash[record.group_id][record.type] = record.total_lufeb
+        TimeRecord.where(year: year).each do |record|
+          hash[record.group_id][record.type] = record
         end
         hash
       end
     end
 
-    def load_time_records
-      TimeRecord.where(year: year,
-                       type: [TimeRecord::EmployeeTime,
-                              TimeRecord::VolunteerWithVerificationTime].collect(&:sti_name))
+    def cost_accounting
+      @cost_accounting ||= CostAccounting::Aggregation.new(year)
+    end
+
+    def nil_cost_accounting_table(group)
+      CostAccounting::Table.new(group, year).tap do |table|
+        table.set_records(nil, nil)
+      end
+    end
+
+    def capital_substrates
+      @capital_substrates ||= begin
+        CapitalSubstrate.where(year: year).each_with_object({}) do |record, hash|
+          hash[record.group_id] = record
+        end
+      end
     end
 
   end

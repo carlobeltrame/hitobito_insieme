@@ -7,7 +7,6 @@
 
 class ControllingController < ApplicationController
 
-  extend ActiveModel::Callbacks
   include YearBasedPaging
 
   respond_to :html
@@ -44,6 +43,10 @@ class ControllingController < ApplicationController
 
   def group
     @group ||= Group::Dachverein.find(params[:id])
+  end
+
+  def default_year
+    @default_year ||= GlobalValue.default_reporting_year
   end
 
   def authorize

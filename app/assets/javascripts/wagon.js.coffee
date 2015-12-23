@@ -3,6 +3,12 @@
 #  or later. See the COPYING file at the top-level directory or at
 #  https://github.com/hitobito/hitobito_insieme.
 
+#= require ./_cost_accounting_calculator.js.coffee
+
+$(document).on('click', '.cancel[href=#]', (event) ->
+  $(this).closest('form').get(0).reset())
+
 $ ->
   $('#person_manual_number').on('change', (event) ->
     $('#person_number').prop('disabled', !this.checked) )
+

@@ -47,9 +47,13 @@ de:
   controlling:
     title: Controlling
     index:
+      controlling: Allgemein
       cost_accounting: Konsolidierte Kostenrechnung
       client_statistics: KlientInnen Statistik
       group_figures: Kennzahlen pro Verein
+      export_bk: Konsolidierte Kursstatistik Blockkurse
+      export_tk: Konsolidierte Kursstatistik Tageskurse
+      export_sk: Konsolidierte Kursstatistik Semester/-Jahreskurse
 
   cost_accounting:
     index:
@@ -58,6 +62,8 @@ de:
     edit:
       aufwand_fibu: Aufwand FIBU
       ertrag_fibu: Ertrag FIBU
+      aufwand_ko_re: Kosten KoRe
+      ertrag_ko_re: Ertrag KoRe
       kontengruppen: "Kontengruppe(n) %{kontengruppen}"
       remarks_placeholder: Hier können Sie Ihre Notizen oder Erklärungen anbringen (z.B. wie sich Aufwand auf Kontengruppen verteilt)
 
@@ -226,26 +232,40 @@ de:
 
   statistics:
     title: Statistik
-    show:
-      title: Vereinsstatistik Mitglieder
+    index:
       export: CSV Export
     group_figures:
       name: 'Vollständiger Name'
+      canton: Kanton
       vid: VID
       bsv: BSV Nummer
-      participant_days_bk_1: Blockkurse TN Tage Kat. 1
-      participant_days_bk_2: Blockkurse TN Tage Kat. 2
-      participant_days_bk_3: Blockkurse TN Tage Kat. 3
-      participant_days_tk_1: Tageskurse TN Tage Kat. 1
-      participant_days_tk_2: Tageskurse TN Tage Kat. 2
-      participant_days_tk_3: Tageskurse TN Tage Kat. 3
-      participant_days_sk_1: Semester-/Jahreskurse TN Stunden Kat. 1
+      kategorie: Kat. %{number}
+      leistungskategorie_bk: Blockkurse
+      leistungskategorie_tk: Tageskurse
+      leistungskategorie_sk: Semester-/Jahreskurse
+      anzahl_kurse: "%{leistungskategorie} Anzahl Kurse %{kategorie}"
+      total_vollkosten: "%{leistungskategorie} Total Vollkosten %{kategorie}"
+      tage_behinderte: "%{leistungskategorie} TN Tage Behinderte %{kategorie}"
+      tage_angehoerige: "%{leistungskategorie} TN Tage Angehörige %{kategorie}"
+      tage_weitere: "%{leistungskategorie} TN Tage nicht Bezugsberechtigte %{kategorie}"
+      tage_total: "%{leistungskategorie} TN Tage Total %{kategorie}"
       lufeb_hours_employees: LUFEB Stunden Angestellte
       lufeb_hours_volunteers: LUFEB Stunden Ehrenamtliche mit Leistungsausweis
+      lufeb_hours_volunteers_without: LUFEB Stunden Ehrenamtliche ohne Leistungsausweis (Total)
+      fte_employees_total: VZÄ angestellte Mitarbeiter (ganze Organisation)
+      fte_employees_only_art_74: VZÄ angestellte Mitarbeiter (Art. 74)
+      fte_volunteers_with_verification_total: VZÄ ehrenamtliche Mitarbeiter (ganze Organisation)
+      fte_volunteers_with_verification_only_art_74: VZÄ ehrenamtliche Mitarbeiter (Art. 74)
+      geschluesseltes_kapitalsubstrat: Geschlüsseltes Kapitalsubstrat nach Art. 74
+      total_aufwand: Totaler Aufwand gemäss FIBU
+      vollkosten_nach_umlagen_betrieb: Vollkosten nach Umlagen Betrieb Art. 74
+      iv_beitrag: IV-Beitrag
+      deckungsbeitrag_4: Deckungsbeitrag 4
 
   shared:
     admin_nav_kinds_insieme:
       reporting_parameters: Parameter
+      global_values: Globale Werte
 
   time_records:
     index:
@@ -274,7 +294,7 @@ de:
       lufeb_general: Allgemeine Medien- und Öffentlichkeitsarbeit
       lufeb_private: Eigene öffentlich zugängliche Medien und Publikationen
       lufeb_specific: Themenspezifische Grundlagenarbeit / Projekte
-      lufeb_promoting: Förderung der Selbsthilfe / Unterstützung von Selbsthilfeorganisationen und –gruppen sowie Einzelpersonen
+      lufeb_promoting: "Förderung der Selbsthilfe / Unterstützung von Selbsthilfeorganisationen und -gruppen sowie Einzelpersonen"
       help_publikationen: nicht in der eigenen Zeitschrift oder Website
       help_medienkonferenzen: Planung bzw. Durchführung
       help_kontakte_meinungsbildner: z.B. EntscheidungsträgerInnen aus Institutionen, Verwaltung, Politik und Wirtschaft
@@ -307,3 +327,21 @@ de:
         name: Geschlüsseltes Kapitalsubstrat nach Art. 74 IVG
       capital_substrate_limit:
         name: Limite Kapitalsubstrat
+
+  export/csv/events/detail_list:
+    group_names: 'Organisatoren'
+    duration: Zeitraum
+    date: "Datum %{index}"
+    teilnehmende_behinderte: Effektiv Teilnehmende Behinderte
+    teilnehmende_angehoerige: Effektiv Teilnehmende Angehörige
+    teilnehmende_mehrfachbehinderte: Effektiv Teilnehmende Mehrfachbehinderte
+    teilnehmende_weitere: Effektiv Teilnehmende Weitere, nicht Beitragsberechtigt
+    absenzen_behinderte: Absenzen Behinderte
+    absenzen_angehoerige: Absenzen Angehörige
+    absenzen_weitere: Absenzen Weitere, nicht Beitragsberechtigt
+    tage_behinderte: Total TeilnehmerInnentage Behinderte
+    tage_angehoerige: Total TeilnehmerInnentage Angehörige
+    tage_weitere: Total TeilnehmerInnentage Weitere, nicht Beitragsberechtigt
+    total_tage_teilnehmende: Anzahl tatsächliche LE
+    direkter_aufwand: Direkter Aufwand
+
