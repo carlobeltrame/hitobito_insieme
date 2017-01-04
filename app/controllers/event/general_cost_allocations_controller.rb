@@ -5,11 +5,33 @@
 #  or later. See the COPYING file at the top-level directory or at
 #  https://github.com/hitobito/hitobito_insieme.
 
+# == Schema Information
+#
+# Table name: event_general_cost_allocations
+#
+#  id                          :integer          not null, primary key
+#  group_id                    :integer          not null
+#  year                        :integer          not null
+#  general_costs_blockkurse    :decimal(12, 2)
+#  general_costs_tageskurse    :decimal(12, 2)
+#  general_costs_semesterkurse :decimal(12, 2)
+#  created_at                  :datetime
+#  updated_at                  :datetime
+#
 class Event::GeneralCostAllocationsController < ReportingBaseController
 
   helper_method :general_cost_from_accounting
 
   after_save :schedule_allocation_job
+
+  def show
+    respond_to do |format|
+      format.html { redirect_to edit_general_cost_allocation_group_events_path(group, year) }
+      format.csv do
+        send_data Export::Csv::Event::GeneralCostAllocation.export(entry), type: :csv
+      end
+    end
+  end
 
   private
 

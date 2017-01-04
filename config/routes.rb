@@ -15,6 +15,8 @@ Rails.application.routes.draw do
       member do
         scope 'time_record' do
           get '/' => 'time_records#index', as: :time_record
+          get ':year/base_information' => 'time_record/base_informations#index',
+              as: :time_record_base_information
           get ':year/:report/edit' => 'time_records#edit', as: :edit_time_record_report
           put ':year/:report' => 'time_records#update', as: :time_record_report
           get ':year/:report' => 'time_records#edit' # route required for language switch
@@ -41,6 +43,8 @@ Rails.application.routes.draw do
             as: :client_statistics_controlling
         get '/controlling/group_figures' => 'controlling#group_figures',
             as: :group_figures_controlling
+        get '/controlling/time_records' => 'controlling#time_records',
+            as: :time_records_controlling
         get '/abo_addresses' => 'abo_addresses#index', as: :abo_addresses
 
         scope module: 'course_reporting' do
@@ -54,15 +58,11 @@ Rails.application.routes.draw do
           get 'aggregate_course' => 'events#index', type: 'Event::AggregateCourse'
 
           scope 'general_cost_allocation' do
+            get ':year' => 'event/general_cost_allocations#show', as: :general_cost_allocation
             get ':year/edit' => 'event/general_cost_allocations#edit',
                 as: :edit_general_cost_allocation
-            put ':year' => 'event/general_cost_allocations#update',
-                as: :general_cost_allocation
-            get ':year' => 'event/general_cost_allocations#edit' # route required for language switch
+            put ':year' => 'event/general_cost_allocations#update'
           end
-
-          # get 'course_statistics' => 'course_statistics#index'
-          # get 'course_statistics/show' => 'course_stat'
         end
 
         scope module: 'event' do

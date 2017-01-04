@@ -1,4 +1,52 @@
 # encoding: utf-8
+# == Schema Information
+#
+# Table name: time_records
+#
+#  id                                       :integer          not null, primary key
+#  group_id                                 :integer          not null
+#  year                                     :integer          not null
+#  verwaltung                               :integer
+#  beratung                                 :integer
+#  treffpunkte                              :integer
+#  blockkurse                               :integer
+#  tageskurse                               :integer
+#  jahreskurse                              :integer
+#  kontakte_medien                          :integer
+#  interviews                               :integer
+#  publikationen                            :integer
+#  referate                                 :integer
+#  medienkonferenzen                        :integer
+#  informationsveranstaltungen              :integer
+#  sensibilisierungskampagnen               :integer
+#  auskunftserteilung                       :integer
+#  kontakte_meinungsbildner                 :integer
+#  beratung_medien                          :integer
+#  eigene_zeitschriften                     :integer
+#  newsletter                               :integer
+#  informationsbroschueren                  :integer
+#  eigene_webseite                          :integer
+#  erarbeitung_instrumente                  :integer
+#  erarbeitung_grundlagen                   :integer
+#  projekte                                 :integer
+#  vernehmlassungen                         :integer
+#  gremien                                  :integer
+#  vermittlung_kontakte                     :integer
+#  unterstuetzung_selbsthilfeorganisationen :integer
+#  koordination_selbsthilfe                 :integer
+#  treffen_meinungsaustausch                :integer
+#  beratung_fachhilfeorganisationen         :integer
+#  unterstuetzung_behindertenhilfe          :integer
+#  mittelbeschaffung                        :integer
+#  allgemeine_auskunftserteilung            :integer
+#  type                                     :string(255)      not null
+#  total_lufeb_general                      :integer
+#  total_lufeb_private                      :integer
+#  total_lufeb_specific                     :integer
+#  total_lufeb_promoting                    :integer
+#  nicht_art_74_leistungen                  :integer
+#
+
 
 #  Copyright (c) 2012-2014, insieme Schweiz. This file is part of
 #  hitobito_insieme and licensed under the Affero General Public License version 3
@@ -15,13 +63,22 @@ class TimeRecordsController < ReportingBaseController
 
   self.remember_params = [:year]
 
-  before_action :entry, except: :index
+  before_action :entry, except: [:index]
 
   def index
-    @table = TimeRecord::Table.new(group, year)
+    respond_to do |format|
+      format.html { redirect_to time_record_base_information_group_path(group, year) }
+      format.csv do
+        send_data Export::Csv::TimeRecords::List.export(list_entries), type: :csv
+      end
+    end
   end
 
   private
+
+  def list_entries
+    TimeRecord.where(group_id: group.id, year: year)
+  end
 
   def entry
     @record ||= record_class.where(group_id: group.id, year: year).first_or_initialize
@@ -44,7 +101,7 @@ class TimeRecordsController < ReportingBaseController
   end
 
   def show_path
-    time_record_group_path(group, year: year)
+    time_record_base_information_group_path(group, year: year)
   end
 
 end

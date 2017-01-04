@@ -15,11 +15,14 @@
 -                     lufeb
 -                     mittelbeschaffung)
 
+= reporting_frozen_message
+
 = crud_form(entry, url: cost_accounting_report_group_path(group, year, entry.report),
-                     cancel_url: cost_accounting_group_path(group, year: year),
-                     buttons_bottom: true,
-                     method: :put,
-                     html: { class: 'report' }) do |f|
+                   cancel_url: cost_accounting_group_path(group, year: year),
+                   buttons_top: !reporting_frozen?,
+                   buttons_bottom: !reporting_frozen?,
+                   method: :put,
+                   html: { class: 'report', data: { readonly: reporting_frozen? } }) do |f|
 
   - if report.editable_fields.include?('aufwand_ertrag_fibu')
     = f.labeled_input_field(:aufwand_ertrag_fibu,
@@ -39,7 +42,7 @@
   - unless report == CostAccounting::Report::DirekteSpendenAusserhalb
     - factor = report == CostAccounting::Report::IndirekteSpenden ? table.value_of(report.key, 'abgrenzung_factor') : nil
     = f.labeled(:aufwand_ertrag_ko_re, report.aufwand ? t('.aufwand_ko_re') : t('.ertrag_ko_re')) do
-      .inline#aufwand_ertrag_ko_re{data: { abgrenzung_factor: factor}}
+      .inline#aufwand_ertrag_ko_re{data: { abgrenzung_factor: factor }}
 
   - if (report.editable_fields & section_fields).present?
     %hr/

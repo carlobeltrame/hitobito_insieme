@@ -50,6 +50,8 @@ class Event::CourseRecord < ActiveRecord::Base
   INPUTKRITERIEN = %w(a b c)
   KURSARTEN = %w(weiterbildung freizeit_und_sport)
 
+  include Insieme::ReportingFreezable
+
   belongs_to :event
   belongs_to :challenged_canton_count, dependent: :destroy,
                                        class_name: 'Event::ParticipationCantonCount'
@@ -134,7 +136,7 @@ class Event::CourseRecord < ActiveRecord::Base
 
   def praesenz_prozent
     if total_tage_teilnehmende > 0
-      100 - ((total_absenzen / total_tage_teilnehmende) * 100).round
+      ((total_tage_teilnehmende / (total_tage_teilnehmende + total_absenzen)) * 100).round
     else
       100
     end
@@ -175,7 +177,6 @@ class Event::CourseRecord < ActiveRecord::Base
       (spezielle_unterkunft ? 1 : 0)
   end
 
-  # rubocop:disable MethodLength
   def set_defaults
     self.kursart ||= 'weiterbildung'
     self.inputkriterien ||= 'a'
@@ -190,7 +191,6 @@ class Event::CourseRecord < ActiveRecord::Base
 
     true # ensure callback chain continues
   end
-  # rubocop:enable MethodLength
 
   private
 

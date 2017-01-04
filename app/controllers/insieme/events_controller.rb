@@ -14,9 +14,10 @@ module Insieme
 
       self.permitted_attrs += [
         course_record_attributes: [:id, :anzahl_kurse, :subventioniert, :inputkriterien,
-                                   :spezielle_unterkunft, :kursart]]
+                                   :spezielle_unterkunft, :kursart]
+      ]
 
-      alias_method_chain :render_csv, :details
+      alias_method_chain :render_xlsx, :details
     end
 
     private
@@ -28,16 +29,41 @@ module Insieme
       end
     end
 
-    def render_csv_with_details(entries)
-      if course_records? && can?(:export_course_records, @group)
-        send_data ::Export::Csv::Events::DetailList.export(entries), type: :csv
-      else
-        render_csv_without_details(entries)
+    def render_xlsx_with_details(entries)
+      send_data(xlsx_exporter.export(entries, group.name, year),
+                type: :xlsx,
+                filename: xlsx_filename)
+    end
+
+    def xlsx_exporter
+      list_type = 'ShortList'
+
+      if can?(:export_course_records, @group) && course_records?
+        list_type = 'DetailList'
       end
+
+      list_type = "AggregateCourse::#{list_type}" if aggregate_course?  
+      "::Export::Xlsx::Events::#{list_type}".constantize
+    end
+
+    def xlsx_filename
+      vid = group.vid.present? ? "_vid#{group.vid}" : ''
+      bsv = group.bsv_number.present? ? "_bsv#{group.bsv_number}" : ''
+      group_name = group.name.parameterize
+      "#{request_event_type}#{vid}#{bsv}_#{group_name}_#{year}.xlsx"
+    end
+    
+    def aggregate_course?
+      request_event_type == 'aggregate_course'
     end
 
     def course_records?
       entries.first.respond_to?(:course_record)
     end
+
+    def request_event_type
+      request.path.split('/').last.split('.').first
+    end
+
   end
 end

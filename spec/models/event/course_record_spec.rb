@@ -58,6 +58,7 @@ describe Event::CourseRecord do
   end
 
   def new_record(event, attrs = {})
+    event.course_record.try(:destroy!)
     r = Event::CourseRecord.new(attrs.merge(event: event))
     r.valid?
     r
@@ -261,6 +262,13 @@ describe Event::CourseRecord do
     context '#praesenz_prozent' do
       it 'is correct' do
         expect(subject.praesenz_prozent).to eq(94)
+      end
+
+      it 'calculates as specified in example' do
+        # 202000/252000*100=80.16%
+        subject.update_attribute(:tage_behinderte, 202000.0 - 24.0)
+        subject.update_attribute(:absenzen_behinderte, 50000.0 - 1.0)
+        expect(subject.praesenz_prozent).to eq(80)
       end
     end
 

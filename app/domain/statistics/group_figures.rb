@@ -44,6 +44,10 @@ module Statistics
       time_records[group.id][TimeRecord::VolunteerWithoutVerificationTime.sti_name]
     end
 
+    def employee_pensum(group)
+      employee_pensums[group.id]
+    end
+
     def cost_accounting_table(group)
       cost_accounting.table(group)
     end
@@ -52,7 +56,7 @@ module Statistics
       cost_table = cost_accounting_table(group) || nil_cost_accounting_table(group)
       substrate = capital_substrates[group.id] || CapitalSubstrate.new
       time_table = TimeRecord::Table.new(group, year, cost_table).tap do |t|
-        t.set_records(TimeRecord::Report::CapitalSubstrate.key => substrate)
+        t.records = { TimeRecord::Report::CapitalSubstrate.key => substrate }
       end
       TimeRecord::Report::CapitalSubstrate.new(time_table)
     end
@@ -99,13 +103,24 @@ module Statistics
       end
     end
 
+    def employee_pensums
+      @employee_pensums ||=
+        TimeRecord::EmployeePensum.
+          select('*, time_records.group_id AS group_id').
+          joins(:time_record).
+          where(time_records: { year: year }).
+          each_with_object({}) do |p, hash|
+          hash[p.group_id] = p
+        end
+    end
+
     def cost_accounting
       @cost_accounting ||= CostAccounting::Aggregation.new(year)
     end
 
     def nil_cost_accounting_table(group)
       CostAccounting::Table.new(group, year).tap do |table|
-        table.set_records(nil, nil)
+        table.set_records(nil, nil, nil)
       end
     end
 

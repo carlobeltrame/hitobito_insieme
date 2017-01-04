@@ -43,7 +43,7 @@ module CostAccounting
       groups = (time_records.keys + cost_records.keys).uniq
       @tables = groups.each_with_object({}) do |group, hash|
         hash[group] = Table.new(group, year).tap do |t|
-          t.set_records(time_records[group], cost_records[group])
+          t.set_records(time_records[group], cost_records[group], course_costs[group.id])
         end
       end
     end
@@ -56,12 +56,31 @@ module CostAccounting
     end
 
     def cost_records
-      @cost_records ||= begin
-        records = CostAccountingRecord.where(year: year).calculation_fields.includes(:group)
-        hash = Hash.new { |h, k| h[k] = {} }
-        records.each { |r| hash[r.group][r.report] = r }
-        hash
-      end
+      @cost_records ||=
+        Hash.new { |h, k| h[k] = {} }.tap do |hash|
+          records = CostAccountingRecord.where(year: year).calculation_fields.includes(:group)
+          records.each { |r| hash[r.group][r.report] = r }
+        end
+    end
+
+    def course_costs
+      @course_costs ||=
+        Hash.new { |h1, k1| h1[k1] = Hash.new { |h2, k2| h2[k2] = {} } }.tap do |hash|
+          load_course_costs.each do |group_id, lk, honorare, unterkunft, uebriges|
+            hash[group_id][lk] = { 'honorare'             => honorare,
+                                   'raumaufwand'          => unterkunft,
+                                   'uebriger_sachaufwand' => uebriges }
+          end
+        end
+    end
+
+    def load_course_costs
+      Event::CourseRecord.
+        joins(event: :groups).
+        group('groups.id, events.leistungskategorie').
+        where(year: year).
+        pluck('groups.id AS group_id, leistungskategorie, ' \
+              'SUM(honorare_inkl_sozialversicherung), SUM(unterkunft), SUM(uebriges)')
     end
 
     class Report

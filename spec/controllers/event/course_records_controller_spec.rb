@@ -1,4 +1,44 @@
 # encoding: utf-8
+# == Schema Information
+#
+# Table name: event_course_records
+#
+#  id                               :integer          not null, primary key
+#  event_id                         :integer          not null
+#  inputkriterien                   :string(1)
+#  subventioniert                   :boolean          default(TRUE), not null
+#  kursart                          :string(255)
+#  kursdauer                        :decimal(12, 2)
+#  teilnehmende_behinderte          :integer
+#  teilnehmende_angehoerige         :integer
+#  teilnehmende_weitere             :integer
+#  absenzen_behinderte              :decimal(12, 2)
+#  absenzen_angehoerige             :decimal(12, 2)
+#  absenzen_weitere                 :decimal(12, 2)
+#  leiterinnen                      :integer
+#  fachpersonen                     :integer
+#  hilfspersonal_ohne_honorar       :integer
+#  hilfspersonal_mit_honorar        :integer
+#  kuechenpersonal                  :integer
+#  honorare_inkl_sozialversicherung :decimal(12, 2)
+#  unterkunft                       :decimal(12, 2)
+#  uebriges                         :decimal(12, 2)
+#  beitraege_teilnehmende           :decimal(12, 2)
+#  spezielle_unterkunft             :boolean          default(FALSE), not null
+#  year                             :integer
+#  teilnehmende_mehrfachbehinderte  :integer
+#  direkter_aufwand                 :decimal(12, 2)
+#  gemeinkostenanteil               :decimal(12, 2)
+#  gemeinkosten_updated_at          :datetime
+#  zugeteilte_kategorie             :string(2)
+#  challenged_canton_count_id       :integer
+#  affiliated_canton_count_id       :integer
+#  anzahl_kurse                     :integer          default(1)
+#  tage_behinderte                  :decimal(12, 2)
+#  tage_angehoerige                 :decimal(12, 2)
+#  tage_weitere                     :decimal(12, 2)
+#
+
 
 #  Copyright (c) 2012-2014, insieme Schweiz. This file is part of
 #  hitobito_insieme and licensed under the Affero General Public License version 3
@@ -80,6 +120,7 @@ describe Event::CourseRecordsController do
 
   context '#edit' do
     it 'builds new course_record based on group and event' do
+      event.course_record.destroy!
       get :edit, group_id: group.id, event_id: event.id
       expect(response.status).to eq(200)
 
@@ -88,9 +129,8 @@ describe Event::CourseRecordsController do
     end
 
     it 'reuses existing course_record based on group and event' do
-      record = Event::CourseRecord.create!(event: event,
-                                           inputkriterien: 'a',
-                                           kursart: 'weiterbildung')
+      record = event.course_record
+      record.update!(inputkriterien: 'a', kursart: 'weiterbildung')
 
       get :edit, group_id: group.id, event_id: event.id
       expect(response.status).to eq(200)
@@ -126,7 +166,7 @@ describe Event::CourseRecordsController do
         spezielle_unterkunft: false,
         kursdauer: 10,
         teilnehmende_mehrfachbehinderte: 3,
-        challenged_canton_count_attributes: { 'be' => 1, 'zh' => 2, 'other' => 3 },
+        challenged_canton_count_attributes: { 'be' => 1, 'zh' => 2, 'another' => 3 },
         affiliated_canton_count_attributes: { 'ag' => 4, 'ge' => 5 },
         teilnehmende_weitere: 10,
         absenzen_behinderte: 10,
@@ -144,9 +184,7 @@ describe Event::CourseRecordsController do
     end
 
     it 'assigns all permitted params' do
-      expect do
-        put :update, group_id: group.id, event_id: event.id, event_course_record: attrs
-      end.to change { Event::CourseRecord.count }.by(1)
+      put :update, group_id: group.id, event_id: event.id, event_course_record: attrs
 
       attrs.each do |key, value|
         unless key.to_s =~ /_attributes$/
@@ -157,7 +195,7 @@ describe Event::CourseRecordsController do
       expect(event.course_record.challenged_canton_count).to be_a(Event::ParticipationCantonCount)
       expect(event.course_record.challenged_canton_count.be).to eq(1)
       expect(event.course_record.challenged_canton_count.zh).to eq(2)
-      expect(event.course_record.challenged_canton_count.other).to eq(3)
+      expect(event.course_record.challenged_canton_count.another).to eq(3)
 
       expect(event.course_record.affiliated_canton_count).to be_a(Event::ParticipationCantonCount)
       expect(event.course_record.affiliated_canton_count.ag).to eq(4)

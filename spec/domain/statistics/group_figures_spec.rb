@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-#  Copyright (c) 2015, insieme Schweiz. This file is part of
+#  Copyright (c) 2016, insieme Schweiz. This file is part of
 #  hitobito_insieme and licensed under the Affero General Public License version 3
 #  or later. See the COPYING file at the top-level directory or at
 #  https://github.com/hitobito/hitobito_insieme.
@@ -10,55 +10,73 @@ require 'spec_helper'
 describe Statistics::GroupFigures do
 
   before do
-    TimeRecord::EmployeeTime.create!(group: groups(:be), year: 2015, interviews: 10, nicht_art_74_leistungen: 5)
-    TimeRecord::EmployeeTime.create!(group: groups(:be), year: 2014, newsletter: 11)
-    TimeRecord::EmployeeTime.create!(group: groups(:fr), year: 2015, projekte: 12)
+    TimeRecord::EmployeeTime.create!(group: groups(:be),
+                                     year: 2016,
+                                     interviews: 10,
+                                     nicht_art_74_leistungen: 5,
+                                     employee_pensum_attributes: { paragraph_74: 0.25 })
+    TimeRecord::EmployeeTime.create!(group: groups(:be), year: 2015, newsletter: 11)
+    TimeRecord::EmployeeTime.create!(group: groups(:fr),
+                                     year: 2016,
+                                     projekte: 12,
+                                     employee_pensum_attributes: {
+                                       paragraph_74: 1.6, not_paragraph_74: 0.4 })
 
     TimeRecord::VolunteerWithVerificationTime.create!(
-      group: groups(:be), year: 2015, vermittlung_kontakte: 20)
+      group: groups(:be), year: 2016, vermittlung_kontakte: 20)
     TimeRecord::VolunteerWithVerificationTime.create!(
-      group: groups(:fr), year: 2015, referate: 21)
+      group: groups(:fr), year: 2016, referate: 21)
 
     TimeRecord::VolunteerWithoutVerificationTime.create!(
-      group: groups(:be), year: 2015, total_lufeb_promoting: 30)
+      group: groups(:be), year: 2016, total_lufeb_promoting: 30)
 
-    CostAccountingRecord.create!(group: groups(:be), year: 2015, report: 'raumaufwand',
+    CostAccountingRecord.create!(group: groups(:be), year: 2016, report: 'raumaufwand',
                                  raeumlichkeiten: 100)
-    CostAccountingRecord.create!(group: groups(:be), year: 2015, report: 'honorare',
+    CostAccountingRecord.create!(group: groups(:be), year: 2016, report: 'honorare',
                                  aufwand_ertrag_fibu: 100, verwaltung: 10,
-                                 beratung: 30, tageskurse: 10)
-    CostAccountingRecord.create!(group: groups(:be), year: 2015, report: 'leistungsertrag',
+                                 beratung: 30)
+    CostAccountingRecord.create!(group: groups(:be), year: 2016, report: 'leistungsertrag',
                                  aufwand_ertrag_fibu: 100, abgrenzung_fibu: 80,
                                  lufeb: 20)
-    CostAccountingRecord.create!(group: groups(:be), year: 2015, report: 'direkte_spenden',
+    CostAccountingRecord.create!(group: groups(:be), year: 2016, report: 'direkte_spenden',
                                  aufwand_ertrag_fibu: 10, lufeb: 2, tageskurse: 8)
-    CostAccountingRecord.create!(group: groups(:be), year: 2015, report: 'beitraege_iv',
+    CostAccountingRecord.create!(group: groups(:be), year: 2016, report: 'beitraege_iv',
                                  aufwand_ertrag_fibu: 100, abgrenzung_fibu: 80,
                                  lufeb: 20)
 
     CapitalSubstrate.create!(
-      group: groups(:be), year: 2015, organization_capital: 500_000, fund_building: 25_000)
+      group: groups(:be), year: 2016, organization_capital: 500_000, fund_building: 25_000)
     CapitalSubstrate.create!(
-      group: groups(:be), year: 2014, organization_capital: 200_000, fund_building: 15_000)
+      group: groups(:be), year: 2015, organization_capital: 200_000, fund_building: 15_000)
 
-    create_course(2015, :be, 'bk', '1', kursdauer: 10, challenged_canton_count_attributes: { zh: 100 }, unterkunft: 500)
-    create_course(2015, :be, 'bk', '1', kursdauer: 11, affiliated_canton_count_attributes: { zh: 101 }, gemeinkostenanteil: 600)
-    create_course(2015, :be, 'bk', '2', kursdauer: 12, challenged_canton_count_attributes: { zh: 450 }, unterkunft: 800)
-    create_course(2015, :be, 'bk', '3', kursdauer: 13, teilnehmende_weitere: 650, uebriges: 200)
-    create_course(2015, :be, 'sk', '1', kursdauer: 14, challenged_canton_count_attributes: { zh: 102 }, unterkunft: 400)
-    create_course(2015, :fr, 'bk', '1', kursdauer: 15, challenged_canton_count_attributes: { zh: 103 }, unterkunft: 0)
-    create_course(2015, :fr, 'tk', '1', kursdauer: 16, teilnehmende_weitere: 104, unterkunft: 500)
-    create_course(2015, :fr, 'tk', '3', kursdauer: 17, challenged_canton_count_attributes: { zh: 500 }, uebriges: 600)
+    create_course(2016, :be, 'bk', '1', kursdauer: 10, unterkunft: 500,
+                  challenged_canton_count_attributes: { zh: 100 })
+    create_course(2016, :be, 'bk', '1', kursdauer: 11, gemeinkostenanteil: 600,
+                  affiliated_canton_count_attributes: { zh: 101 })
+    create_course(2016, :be, 'bk', '2', kursdauer: 12, unterkunft: 800,
+                  challenged_canton_count_attributes: { zh: 450 })
+    create_course(2016, :be, 'bk', '3', kursdauer: 13,
+                  teilnehmende_weitere: 650, uebriges: 200)
+    create_course(2016, :be, 'sk', '1', kursdauer: 14, unterkunft: 400,
+                  honorare_inkl_sozialversicherung: 10,
+                  challenged_canton_count_attributes: { zh: 102 })
+    create_course(2016, :fr, 'bk', '1', kursdauer: 15, unterkunft: 0,
+                  challenged_canton_count_attributes: { zh: 103 })
+    create_course(2016, :fr, 'tk', '1', kursdauer: 16,
+                  teilnehmende_weitere: 104, unterkunft: 500)
+    create_course(2016, :fr, 'tk', '3', kursdauer: 17, uebriges: 600,
+                  challenged_canton_count_attributes: { zh: 500 })
 
     # other year
-    create_course(2014, :fr, 'bk', '1', kursdauer: 17, teilnehmende_weitere: 105)
+    create_course(2015, :fr, 'bk', '1', kursdauer: 17, teilnehmende_weitere: 105)
     # not subventioniert
-    create_course(2015, :fr, 'tk', '3', kursdauer: 5, challenged_canton_count_attributes: { zh: 500 }, uebriges: 600, subventioniert: false)
+    create_course(2016, :fr, 'tk', '3', kursdauer: 5, uebriges: 600, subventioniert: false,
+                  challenged_canton_count_attributes: { zh: 500 })
 
-    @course_records = Event::CourseRecord.joins(:event).where(year: 2015)
+    @course_records = Event::CourseRecord.joins(:event).where(year: 2016)
   end
 
-  let(:figures) { described_class.new(2015) }
+  let(:figures) { described_class.new(2016) }
 
   context '#groups' do
     it 'returns group sorted by type' do
@@ -79,7 +97,8 @@ describe Statistics::GroupFigures do
         expected = records.sum(&:total_tage_teilnehmende)
         record = figures.course_record(groups(group_key), lk, zk)
         actual = record.try(:total_tage_teilnehmende).to_i
-        msg = "expected figures.course_record(#{group_key}, #{lk}, #{zk}).total_tage_teilnehmende to eq #{expected}, got: #{actual}"
+        msg = "expected figures.course_record(#{group_key}, #{lk}, #{zk}).total_tage_teilnehmende" \
+              " to eq #{expected}, got: #{actual}"
 
         expect(actual).to eq(expected), msg
       end
@@ -157,6 +176,15 @@ describe Statistics::GroupFigures do
     it 'returns nil for groups without records' do
       expect(figures.employee_time(groups(:seeland))).to be_nil
     end
+
+    context 'pensums' do
+      it 'returns' do
+        pensum = figures.employee_pensum(groups(:fr))
+        expect(pensum.total).to eq(2.0)
+        expect(pensum.paragraph_74).to eq(1.6)
+        expect(pensum.not_paragraph_74).to eq(0.4)
+      end
+    end
   end
 
   context '#volunteer_with_verification_time' do
@@ -168,8 +196,10 @@ describe Statistics::GroupFigures do
       expect(time.total_lufeb).to eq(21)
       expect(time.total_lufeb_general).to eq(21)
 
-      expect(figures.volunteer_with_verification_time(groups(:be)).total_lufeb).to eq(volunteer_total_lufeb(:be))
-      expect(figures.volunteer_with_verification_time(groups(:fr)).total_lufeb).to eq(volunteer_total_lufeb(:fr))
+      expect(figures.volunteer_with_verification_time(groups(:be)).total_lufeb).to(
+        eq(volunteer_total_lufeb(:be)))
+      expect(figures.volunteer_with_verification_time(groups(:fr)).total_lufeb).to(
+        eq(volunteer_total_lufeb(:fr)))
     end
 
     it 'returns the pensums' do
@@ -202,7 +232,7 @@ describe Statistics::GroupFigures do
   context 'capital substrate' do
     it 'returns the correct substrate' do
       substrate = figures.capital_substrate(groups(:be))
-      expect(substrate.paragraph_74).to eq(574_950.0)
+      expect(substrate.paragraph_74).to eq(10_074_000.0)
     end
 
     it 'returns negative exemption for groups without records' do
@@ -211,7 +241,7 @@ describe Statistics::GroupFigures do
 
     it 'returns the same substrate like the time record table' do
       substrate = figures.capital_substrate(groups(:be)).paragraph_74
-      table = TimeRecord::Table.new(groups(:be), 2015)
+      table = TimeRecord::Table.new(groups(:be), 2016)
       expect(substrate).to eq(table.value_of('capital_substrate', 'paragraph_74'))
     end
   end
@@ -220,9 +250,9 @@ describe Statistics::GroupFigures do
     it 'contains the correct values' do
       table = figures.cost_accounting_table(groups(:be))
       expect(table.value_of('total_aufwand', 'aufwand_ertrag_fibu')).to eq(100)
-      expect(table.value_of('vollkosten', 'total')).to eq(150)
+      expect(table.value_of('vollkosten', 'total')).to eq(2050)
       expect(table.value_of('beitraege_iv', 'total')).to eq(20)
-      expect(table.value_of('deckungsbeitrag4', 'total')).to eq(-100)
+      expect(table.value_of('deckungsbeitrag4', 'total')).to eq(-2000)
     end
 
     it 'returns nil for groups without records' do
@@ -248,12 +278,21 @@ describe Statistics::GroupFigures do
     r.update_column(:zugeteilte_kategorie, kategorie)
   end
 
-  def employee_total_lufeb(group_key, year = 2015)
+  def create_course_record(lk, unterkunft)
+    Event::CourseRecord.create!(
+      event: Fabricate(:aggregate_course, groups: [group], leistungskategorie: lk, year: year),
+      unterkunft: unterkunft
+    )
+  end
+
+  def employee_total_lufeb(group_key, year = 2016)
     TimeRecord::EmployeeTime.find_by_group_id_and_year(groups(group_key).id, year).total_lufeb
   end
 
-  def volunteer_total_lufeb(group_key, year = 2015)
-    TimeRecord::VolunteerWithVerificationTime.find_by_group_id_and_year(groups(group_key).id, year).total_lufeb
+  def volunteer_total_lufeb(group_key, year = 2016)
+    TimeRecord::VolunteerWithVerificationTime.
+      find_by_group_id_and_year(groups(group_key).id, year).
+      total_lufeb
   end
 
 end

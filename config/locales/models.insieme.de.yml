@@ -72,87 +72,113 @@ de:
         description:
       group/dachverein/vorstandsmitglied:
         one: Vorstandsmitglied
+        other: Vorstandsmitglieder
         description:
       group/dachverein/geschaeftsfuehrung:
         one: Geschäftsführung
+        other: Geschäftsführung
         description:
       group/dachverein/sekretariat:
         one: Sekretariat
+        other: Sekretariat
         description:
       group/dachverein/adressverwaltung:
         one: Adressverwaltung
+        other: Adressverwaltung
         description:
       group/dachverein/controlling:
         one: Controlling
+        other: Controlling
         description:
       group/dachverein/external:
         one: Extern
+        other: Externe
         description:
 
       group/dachverein_liste/listenverwaltung:
         one: Listenverwaltung
+        other: Listenverwaltung
         description:
       group/dachverein_liste/person:
         one: Person
+        other: Personen
         description:
 
       group/dachverein_gremium/leitung:
         one: Leitung
+        other: Leitung
         description:
       group/dachverein_gremium/mitglied:
         one: Mitglied
+        other: Mitglieder
         description:
 
       group/dachverein_abonnemente/einzelabo:
         one: Einzelabo
+        other: Einzelabos
         description:
       group/dachverein_abonnemente/geschenkabo:
         one: Geschenkabo
+        other: Geschenkabos
         description:
       group/dachverein_abonnemente/gratisabo:
         one: Gratisabo
+        other: Gratisabos
         description:
 
       group/regionalverein/praesident:
         one: PräsidentIn
+        other: PräsidentInnen
         description:
       group/regionalverein/vorstandsmitglied:
         one: Vorstandsmitglied
+        other: Vorstandsmitglieder
         description:
       group/regionalverein/geschaeftsfuehrung:
         one: Geschäftsführung
+        other: Geschäftsführung
         description:
       group/regionalverein/sekretariat:
         one: Sekretariat
+        other: Sekretariat
         description:
       group/regionalverein/adressverwaltung:
         one: Adressverwaltung
+        other: Adressverwaltung
         description:
       group/regionalverein/versandadresse:
         one: Versandadresse
+        other: Versandadressen
         description:
       group/regionalverein/rechnungsadresse:
         one: Rechnungsadresse
+        other: Rechnungsadressen
         description:
       group/regionalverein/controlling:
         one: Controlling
+        other: Controlling
         description:
       group/regionalverein/external:
         one: Extern
+        other: Externe
         description:
 
       group/regionalverein_liste/listenverwaltung:
         one: Listenverwaltung
+        other: Listenverwaltung
         description:
       group/regionalverein_liste/person:
         one: Person
+        other: Personen
         description:
 
       group/regionalverein_gremium/leitung:
         one: Leitung
+        other: Leitung
         description:
       group/regionalverein_gremium/mitglied:
         one: Mitglied
+        other: Mitglieder
         description:
 
       group/aktivmitglieder/aktivmitglied:
@@ -195,67 +221,90 @@ de:
 
       group/externe_organisation/praesident:
         one: PräsidentIn
+        other: PräsidentInnen
         description:
       group/externe_organisation/vorstandsmitglied:
         one: Vorstandsmitglied
+        other: Vorstandsmitglieder
         description:
       group/externe_organisation/geschaeftsfuehrung:
         one: Geschäftsführung
+        other: Geschäftsführung
         description:
       group/externe_organisation/sekretariat:
         one: Sekretariat
+        other: Sekretariat
         description:
       group/externe_organisation/adressverwaltung:
         one: Adressverwaltung
+        other: Adressverwaltung
         description:
       group/externe_organisation/versandadresse:
         one: Versandadresse
+        other: Versandadressen
         description:
       group/externe_organisation/rechnungsadresse:
         one: Rechnungsadresse
+        other: Rechnungsadressen
         description:
       group/externe_organisation/controlling:
         one: Controlling
+        other: Controlling
         description:
       group/externe_organisation/external:
         one: Extern
+        other: Externe
         description:
 
       group/externe_organisation_liste/listenverwaltung:
         one: Listenverwaltung
+        other: Listenverwaltung
         description:
       group/externe_organisation_liste/person:
         one: Person
+        other: Personen
         description:
 
       group/externe_organisation_gremium/leitung:
         one: Leitung
+        other: Leitung
         description:
       group/externe_organisation_gremium/mitglied:
         one: Mitglied
+        other: Mitglieder
         description:
 
 
       event/course/role/leader_admin:
         one: Leitung (Administration)
+        other: Leitung (Administration)
       event/course/role/leader_reporting:
         one: Leitung (Reporting)
+        other: Leitung (Reporting)
       event/course/role/leader_basic:
         one: Leitung
+        other: Leitung
       event/course/role/expert:
         one: Fachperson hochqualifiziert
+        other: Fachpersonen hochqualifiziert
       event/course/role/helper_paid:
         one: Hilfspersonal mit Honorar
+        other: Hilfspersonal mit Honorar
       event/course/role/helper_unpaid:
         one: Hilfspersonal ohne Honorar
+        other: Hilfspersonal ohne Honorar
       event/course/role/kitchen:
         one: Küche
+        other: Küche
       event/course/role/challenged:
         one: Behinderte(r)
+        other: Behinderte
       event/course/role/affiliated:
         one: Angehörige(r)
+        other: Angehörige
       event/course/role/not_entitled_for_benefit:
         one: Nicht Bezugsberechtigt
+        other: Nicht Bezugsberechtigte
 
 
       event/aggregate_course:
@@ -305,7 +354,7 @@ de:
 
     attributes:
       cantons:
-        other: Andere Herkunft
+        another: Andere Herkunft
 
       cost_accounting_record:
         group_id: Gruppe
@@ -333,6 +382,7 @@ de:
 
       global_value:
         default_reporting_year: Default Reporting Jahr
+        reporting_frozen_until_year: Reporting gesperrt bis
 
       event:
         teamer_count: Anzahl BetreuerInnen
@@ -364,7 +414,7 @@ de:
         spezielle_unterkunft: Spezielle Unterkunft
         kursdauer: Kursdauer
         teilnehmende_behinderte: Behinderte
-        teilnehmende_mehrfachbehinderte: Mehrfachbehinderte
+        teilnehmende_mehrfachbehinderte: davon Mehrfachbehinderte
         teilnehmende_angehoerige: Angehörige
         teilnehmende_weitere: Weitere, nicht Beitragsberechtigt
         absenzen_behinderte: Behinderte
@@ -452,7 +502,7 @@ de:
         vs: VS
         zg: ZG
         zh: ZH
-        other: Andere Herkunft
+        another: Andere Herkunft
         undefined: Nicht festgelegt
 
       group:
@@ -470,7 +520,7 @@ de:
           fr: Französisch
           it: Italienisch
           en: Englisch
-          other: Andere
+          another: Andere
           _nil: ''
 
         correspondence_language: Korrespondenzsprache
@@ -553,6 +603,9 @@ de:
         capital_substrate_exemption: BSV Kapitalsubstrat Freibetrag
 
       time_record:
+        year: Jahr
+        group: Gruppe
+        group_id: Gruppe
         kontakte_medien: Kontakte zu Medien, zu Medienschaffenden
         interviews: Erteilen von Interviews
         publikationen: Publikation
@@ -586,18 +639,21 @@ de:
         total_lufeb_general: Allgemeine Medien- und Öffentlichkeitsarbeit
         total_lufeb_private: Eigene öffentlich zugängliche Medien und Publikationen
         total_lufeb_specific: Themenspezifische Grundlagenarbeit / Projekte
-        total_lufeb_promoting: Förderung der Selbsthilfe / Unterstützung von Selbsthilfeorganisationen und –gruppen sowie Einzelpersonen
+        total_lufeb_promoting: "Förderung der Selbsthilfe / Unterstützung von Selbsthilfeorganisationen und -gruppen sowie Einzelpersonen"
         total_lufeb: Total LUFEB-Leistungen
 
         blockkurse: Blockkurse
         tageskurse: Tageskurse
         jahreskurse: Semester-/Jahreskurse
+        total_courses: Total Kurse
 
         treffpunkte: Betreuung in Treffpunkten
         beratung: Sozialberatung
+        total_additional_person_specific: Total Weitere personenspezifische Leistungen
 
         mittelbeschaffung: Mittelbeschaffung
         verwaltung:  Vereinsführung und Verwaltung
+        total_remaining: Total übrige Leistungen
 
         total_paragraph_74: Total Art. 74 betreffend
         total_paragraph_74_pensum: Ausgedrückt in-100% Stellen
@@ -615,6 +671,7 @@ de:
         not_paragraph_74: Art. 74 nicht betreffend in 100% Stellen
 
       capital_substrate:
+        year: Jahr
         allocation_base: Schlüssel
         organization_capital: Organisationskapital inkl. freie Reserven und freie Fonds
         organization_capital_allocated: geschlüsseltes Organisationskapital
@@ -633,6 +690,8 @@ de:
         manual_number_in_automatic_range: darf nicht zwischen %{lower} und %{upper} liegen, wenn sie manuell gesetzt wird.
         automatic_number_in_manual_range: muss zwischen %{lower} und %{upper} liegen, wenn sie automatisch gesetzt wird.
         less_than_teilnehmende_behinderte: muss kleiner gleich Anzahl Behinderter sein.
+        reporting_frozen: ist abgeschlossen und wurde gesperrt.
+        event_reporting_frozen: Reporting im Jahr ist abgeschlossen und wurde gesperrt.
 
 
   cost_accounting:

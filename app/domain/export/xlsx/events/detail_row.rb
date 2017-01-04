@@ -6,10 +6,10 @@
 #  https://github.com/hitobito/hitobito_insieme.
 
 
-module Export::Csv::Events
-  class DetailRow < Export::Csv::Events::Row
+module Export::Xlsx::Events
+  class DetailRow < Export::Xlsx::Events::Row
 
-    delegate *DetailList::COURSE_RECORD_ATTRS, to: :course_record, allow_nil: true
+    delegate(*DetailList::COURSE_RECORD_ATTRS, to: :course_record, allow_nil: true)
 
   end
 end

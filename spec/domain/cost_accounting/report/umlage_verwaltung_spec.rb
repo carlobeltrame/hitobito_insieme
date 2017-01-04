@@ -9,13 +9,11 @@ require 'spec_helper'
 
 describe CostAccounting::Report::UmlageVerwaltung do
 
-  let(:year) { 2014 }
+  let(:year) { 2016 }
   let(:group) { groups(:be) }
   let(:table) { CostAccounting::Table.new(group, year) }
   let(:report) { table.reports.fetch('umlage_verwaltung') }
   let(:fields) { CostAccounting::Report::UmlageVerwaltung::FIELDS }
-
-
 
   context 'verwaltung is zero' do
 
@@ -46,8 +44,9 @@ describe CostAccounting::Report::UmlageVerwaltung do
   context 'verwaltung is given' do
 
     before do
+      create_course_record('tk', 10)
       create_report('raumaufwand', raeumlichkeiten: 100)
-      create_report('honorare', verwaltung: 10, beratung: 30, tageskurse: 10)
+      create_report('honorare', verwaltung: 10, beratung: 30)
     end
 
     it 'verwaltung is correct' do
@@ -109,4 +108,12 @@ describe CostAccounting::Report::UmlageVerwaltung do
                                               year: year,
                                               report: name))
   end
+
+  def create_course_record(lk, honorare)
+    Event::CourseRecord.create!(
+      event: Fabricate(:aggregate_course, groups: [group], leistungskategorie: lk, year: year),
+      honorare_inkl_sozialversicherung: honorare
+    )
+  end
+
 end

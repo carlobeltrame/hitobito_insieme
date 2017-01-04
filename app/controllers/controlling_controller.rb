@@ -23,8 +23,8 @@ class ControllingController < ApplicationController
 
   def cost_accounting
     @table = CostAccounting::Aggregation.new(year)
-    csv = Export::Csv::CostAccounting::List.export(@table.reports.values)
-    send_data csv, type: :csv, filename: "cost_accounting_#{year}.csv"
+    xlsx = Export::Xlsx::CostAccounting::List.export(@table.reports.values, group.name, year)
+    send_data xlsx, type: :xlsx, filename: "cost_accounting_#{year}.xlsx"
   end
 
   def client_statistics
@@ -37,6 +37,13 @@ class ControllingController < ApplicationController
     @stats = Statistics::GroupFigures.new(year)
     csv = Export::Csv::Statistics::GroupFigures.export(@stats)
     send_data csv, type: :csv, filename: "group_figures_#{year}.csv"
+  end
+
+  def time_records
+    @list = TimeRecord::Vereinsliste.new(year, params[:type])
+    csv = Export::Csv::TimeRecords::Vereinsliste.export(@list)
+    filename = "#{params[:type].to_s.underscore.tr('/', '_')}_#{year}.csv"
+    send_data csv, type: :csv, filename: filename
   end
 
   private

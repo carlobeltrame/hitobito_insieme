@@ -12,7 +12,7 @@
 %h3= t('.controlling')
 
 = action_button(t('.cost_accounting'),
-                cost_accounting_controlling_group_path(year: year, format: :csv),
+                cost_accounting_controlling_group_path(year: year, format: :xlsx),
                 :download)
 
 = action_button(t('.client_statistics'),
@@ -22,6 +22,16 @@
 = action_button(t('.group_figures'),
                 group_figures_controlling_group_path(year: year, format: :csv),
                 :download)
+
+
+%h3= t('.export_time_records')
+
+- [TimeRecord::EmployeeTime,
+   TimeRecord::VolunteerWithVerificationTime,
+   TimeRecord::VolunteerWithoutVerificationTime].each do |klass|
+  = action_button(t(".time_records.#{klass.name.demodulize.underscore}"),
+                  time_records_controlling_group_path(year: year, type: klass.sti_name, format: :csv),
+                  :download)
 
 
 - params[:year] ||= @year
