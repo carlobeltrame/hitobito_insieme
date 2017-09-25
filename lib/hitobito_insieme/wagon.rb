@@ -13,14 +13,14 @@ module HitobitoInsieme
     app_requirement '>= 0'
 
     # Add a load path for this specific wagon
-    config.autoload_paths += %W( #{config.root}/app/abilities
-                                 #{config.root}/app/decorators
-                                 #{config.root}/app/domain
-                                 #{config.root}/app/jobs
-                             )
+    config.autoload_paths += %W(
+      #{config.root}/app/abilities
+      #{config.root}/app/decorators
+      #{config.root}/app/domain
+      #{config.root}/app/jobs
+    )
 
     config.to_prepare do
-      # rubocop:disable SingleSpaceBeforeFirstArg
       # extend application classes here
 
       # models
@@ -52,7 +52,6 @@ module HitobitoInsieme
       PeopleController.send :include, Insieme::PeopleController
       PeopleController.send :include, Insieme::RenderPeopleExports
       EventsController.send :include, Insieme::EventsController
-      SubscriptionsController.send         :include, Insieme::SubscriptionsController
       Event::ParticipationsController.send :include, Insieme::Event::ParticipationsController
       Event::ParticipationsController.send :include, Insieme::RenderPeopleExports
       Event::RegisterController.send       :include, Insieme::Event::RegisterController
@@ -70,20 +69,24 @@ module HitobitoInsieme
 
       # domain
       Export::Tabular::People::PeopleAddress.send(
-        :include, Insieme::Export::Tabular::People::PeopleAddress)
+        :include, Insieme::Export::Tabular::People::PeopleAddress
+      )
       Export::Tabular::People::PeopleFull.send(
-        :include, Insieme::Export::Tabular::People::PeopleFull)
+        :include, Insieme::Export::Tabular::People::PeopleFull
+      )
       Export::Tabular::People::PersonRow.send(
-        :include, Insieme::Export::Tabular::People::PersonRow)
+        :include, Insieme::Export::Tabular::People::PersonRow
+      )
       Export::Tabular::People::ParticipationsFull.send(
-        :include, Insieme::Export::Tabular::People::ParticipationsFull)
+        :include, Insieme::Export::Tabular::People::ParticipationsFull
+      )
       Export::Tabular::People::ParticipationRow.send(
-        :include, Insieme::Export::Tabular::People::ParticipationRow)
+        :include, Insieme::Export::Tabular::People::ParticipationRow
+      )
       Export::Tabular::Events::List.send :include, Insieme::Export::Tabular::Events::List
       Export::Tabular::Events::Row.send :include, Insieme::Export::Tabular::Events::Row
       Export::Pdf::Labels.send :include, Insieme::Export::Pdf::Labels
       Import::PersonDoubletteFinder.send :include, Insieme::Import::PersonDoubletteFinder
-      # rubocop:enable SingleSpaceBeforeFirstArg
 
       Export::Xlsx::Style.register(Export::Xlsx::CostAccounting::Style,
                                    Export::Tabular::CostAccounting::List)
@@ -95,6 +98,9 @@ module HitobitoInsieme
       Export::Xlsx::Style.register(Export::Xlsx::Events::AggregateCourse::Style,
                                    Export::Tabular::Events::AggregateCourse::DetailList,
                                    Export::Tabular::Events::AggregateCourse::ShortList)
+
+      # jobs
+      Export::SubscriptionsJob.send :include, Insieme::Export::SubscriptionsJob
 
       admin = NavigationHelper::MAIN.find { |opts| opts[:label] == :admin }
       admin[:active_for] << 'reporting_parameters' << 'global_value'
