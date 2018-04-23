@@ -61,7 +61,7 @@ module HitobitoInsieme
       Sheet::Base.send  :include, Insieme::Sheet::Base
       Sheet::Group.send :include, Insieme::Sheet::Group
       Sheet::Event.send :include, Insieme::Sheet::Event
-      Dropdown::PeopleExport.send :include, Insieme::Dropdown::PeopleExport
+      Dropdown::LabelItems.send :include, Insieme::Dropdown::LabelItems
 
       # decorators
       PersonDecorator.send :include, Insieme::PersonDecorator
@@ -101,6 +101,8 @@ module HitobitoInsieme
 
       # jobs
       Export::SubscriptionsJob.send :include, Insieme::Export::SubscriptionsJob
+      Export::EventsExportJob.send :include, Insieme::Export::EventsExportJob
+
 
       admin = NavigationHelper::MAIN.find { |opts| opts[:label] == :admin }
       admin[:active_for] << 'reporting_parameters' << 'global_value'
