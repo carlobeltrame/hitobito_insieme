@@ -60,7 +60,7 @@ class Group::Dachverein < Group
   end
 
   class Geschaeftsfuehrung < ::Role
-    self.permissions = [:admin, :layer_and_below_full, :contact_data]
+    self.permissions = [:admin, :layer_and_below_full, :contact_data, :impersonation, :finance]
   end
 
   class Sekretariat < ::Role
@@ -73,6 +73,14 @@ class Group::Dachverein < Group
 
   class Controlling < ::Role
     self.permissions = [:admin, :layer_and_below_full, :contact_data]
+  end
+
+  class Invoicing < ::Role
+    self.permissions = [:layer_and_below_read, :finance]
+  end
+
+  class ItSupport < ::Role
+    self.permissions = [:admin, :layer_and_below_full, :impersonation]
   end
 
   class External < ::Role
@@ -88,6 +96,8 @@ class Group::Dachverein < Group
         Sekretariat,
         Adressverwaltung,
         Controlling,
+        Invoicing,
+        ItSupport,
         External
 
 end

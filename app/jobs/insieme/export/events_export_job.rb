@@ -16,21 +16,17 @@ module Insieme
 
     def initialize_with_insieme(*args)
       initialize_without_insieme(*args)
-      @tempfile_name = filename
-    end
-
-    def can?(action, object)
-      Ability.new(::Person.find(@user_id)).can?(action, object)
+      @options[:filename] = overwrite_filename
     end
 
     def data_with_insieme
-      exporter_class.export(@format, entries, group_name, @year)
+      exporter_class.export(@format, entries, group_name, year)
     end
 
     def exporter_class
       list_type = 'ShortList'
 
-      if can?(:export_course_records, @parent) && course_records?
+      if ability.can?(:export_course_records, parent) && course_records?
         list_type = 'DetailList'
       end
 
@@ -38,26 +34,38 @@ module Insieme
       "::Export::Tabular::Events::#{list_type}".constantize
     end
 
-    def filename
-      vid = @parent.vid.present? ? "_vid#{@parent.vid}" : ''
-      bsv = @parent.bsv_number.present? ? "_bsv#{@parent.bsv_number}" : ''
-      "#{filename_prefix}#{vid}#{bsv}_#{group_name}_#{@year}.#{@format}"
+    def overwrite_filename
+      vid = parent.vid.present? ? "_vid#{parent.vid}" : ''
+      bsv = parent.bsv_number.present? ? "_bsv#{parent.bsv_number}" : ''
+      AsyncDownloadFile.create_name("#{filename_prefix}#{vid}#{bsv}_#{group_name}_#{year}", user.id)
     end
 
     def aggregate_course?
-      @event_type == ::Event::AggregateCourse.sti_name
+      type == ::Event::AggregateCourse.sti_name
     end
 
     def group_name
-      @parent.name.parameterize
+      parent.name.parameterize
     end
 
     def filename_prefix
-      @event_type.to_s.demodulize.underscore || 'simple'
+      type.to_s.demodulize.underscore || 'simple'
     end
 
     def course_records?
       entries.first.respond_to?(:course_record)
+    end
+
+    def parent
+      @filter.group
+    end
+
+    def year
+      @filter.year
+    end
+
+    def type
+      @filter.type
     end
 
   end
